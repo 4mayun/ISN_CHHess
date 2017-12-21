@@ -25,7 +25,7 @@ class Chess {
 
   setHoverCasing(mX, mY) { // A utiliser avec p5, dans mouseMoved
     mX -= width/2-this.config.sizeW/2;     // mX et mY se situent par rapport au coin supérieur gauche
-    mY -= height/2-this.config.sizeH/2;   //  de l'échiquier et plus par rapport à l'origine du canvas
+    mY -= height/2-this.config.sizeH/2;   //  de l'échiquier et non plus par rapport à l'origine du canvas
 
     if (mX>=0 && mX<this.config.sizeW
       && mY>=0 && mY<this.config.sizeH) // Si la souris se situe au dessus de l'échiquier
