@@ -16,7 +16,7 @@ function draw() {
 }
 
 function mouseMoved() {
-  game.setOverCasing(mouseX, mouseY);
+  game.setHoverCasing(mouseX, mouseY);
 }
 
 function windowResized() {
