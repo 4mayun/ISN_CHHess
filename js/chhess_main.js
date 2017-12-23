@@ -8,11 +8,10 @@ function setup() {
 }
 
 function draw() {
-  background(game.config.backgroundColor);
+  game.draw();
+  
   fill(255);
   textSize(12); text(width+"x"+height+":  "+int(frameRate())+" fps", 1, height-2);
-
-  game.draw();
 }
 
 function mouseMoved() {
@@ -20,6 +19,5 @@ function mouseMoved() {
 }
 
 function windowResized() {
-  createCanvas(windowWidth-windowOffset, windowHeight-windowOffset);
-  background(game.config.backgroundColor);
+  resizeCanvas(windowWidth-windowOffset, windowHeight-windowOffset);
 }

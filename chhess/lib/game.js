@@ -9,6 +9,7 @@ class Chess {
 
   init() {
     cursor(this.config.cursor.dark_matter);
+    frameRate(this.maxFrameRate);
   }
 
 
@@ -39,6 +40,8 @@ class Chess {
 
 
   draw() { //Dessin du jeu, a utiliser avec p5, dans le draw
+    background(this.config.backgroundColor);
+
     for (let i = 0; i<this.config.num; i++) {
       for (let j = 0; j<this.config.num; j++) {
         noStroke();
