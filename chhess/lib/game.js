@@ -1,14 +1,31 @@
-class Chess {
-  constructor() {
+// ATTENTION:
+// La chaine de caractire passie en paramitre du constructeur DOIT ETRE le
+// nom de l'instance de cette classe
+// Exemple:
+//  var game = new Game('gaem')  //CECI N'EST PAS BON
+//  var gaem = new Game('gaem')  // ceci est bon
+
+class Game {
+  constructor(name) {
+    this.name = name;
+
+    // Verification du parametre name
+    if (window[this.name]===undefined) {
+      // L'objet n'est pas bien initialise
+      console.warn("[ERROR]: GAME CLASS IS BADLY INSTANCED");
+      console.warn("[ERROR]: Verify that you set the object name in the constructor parameter as a string.");
+      console.warn("[ERROR]: (See the beginning of game.js file for more details)");
+
+    }
+
     this.config = new Config();
-
-
     // Ajouter les deux joueurs...
+
+    this.caseOn = null;
   }
 
 
-  init() {
-    cursor(this.config.cursor.dark_matter);
+  init() { // A utiliser avec p5, dans setup
     frameRate(this.maxFrameRate);
   }
 
@@ -46,7 +63,7 @@ class Chess {
       for (let j = 0; j<this.config.num; j++) {
         noStroke();
         // (!(i%2)&&!(j%2)||i%2&&j%2) ? fill(this.config.square.color1) : fill(this.config.square.color2);
-        (!((i+j)%2)) ? fill(this.config.square.color1) : fill(this.config.square.color2);
+        ((i+j)%2) ? fill(this.config.square.color2) : fill(this.config.square.color1);
         rect(
           width/2-this.config.sizeW/2 + i*this.config.square.size + i*this.config.margin,
           height/2-this.config.sizeH/2 + j*this.config.square.size + j*this.config.margin,
