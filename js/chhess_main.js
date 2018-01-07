@@ -9,7 +9,7 @@ function setup() {
 
 function draw() {
   game.draw();
-  
+
   fill(255);
   textSize(12); text(width+"x"+height+":  "+int(frameRate())+" fps", 1, height-2);
 }

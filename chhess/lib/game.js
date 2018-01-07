@@ -58,12 +58,12 @@ class Chess {
     }
 
     if (this.caseOn) { // Si une case est survolée
-      fill(200, 200, 200, 100);
+      fill(128, 128, 128, 128);
       rect(
-        width/2-this.config.sizeW/2,
-        height/2-this.config.sizeH/2,
-        this.config.sizeW,
-        this.config.sizeH,
+        width/2-this.config.sizeW/2 + this.caseOn.X*(this.config.square.size+this.config.margin),
+        height/2-this.config.sizeH/2 + this.caseOn.Y*(this.config.square.size+this.config.margin),
+        this.config.square.size,
+        this.config.square.size,
         this.config.square.cornerRadius
       );
     }
