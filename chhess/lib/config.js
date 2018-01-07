@@ -10,7 +10,8 @@ class Config {
     this.maxFrameRate = 60;
 
     this.cursor = { // Définir les différents curseurs ici
-      dark_matter: "ressources/cursor/dark_matter.png"
+      dark_matter: "ressources/cursor/dark_matter.png",
+      hot_matter:  "ressources/cursor/hot_matter"
     };
   }
 }
