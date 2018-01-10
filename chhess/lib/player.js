@@ -1,30 +1,30 @@
 class Player {
   constructor(objRef) {
-    window[objRef].config.square.size;
+    // window[objRef].config.
     this.pieces = [
-      new King(),
-      new Queen(),
-      new Bishop('left'),
-      new Bishop('right'),
-      new Knight('left'),
-      new Knight('right'),
-      new Rook('left'),
-      new Rook('right'),
-      new Pawn('1'),
-      new Pawn('2'),
-      new Pawn('3'),
-      new Pawn('4'),
-      new Pawn('5'),
-      new Pawn('6'),
-      new Pawn('7'),
-      new Pawn('8'),
+      new King(objRef),
+      new Queen(objRef),
+      new Bishop(objRef, 'left'),
+      new Bishop(objRef, 'right'),
+      new Knight(objRef, 'left'),
+      new Knight(objRef, 'right'),
+      new Rook(objRef, 'left'),
+      new Rook(objRef, 'right'),
+      new Pawn(objRef, '1'),
+      new Pawn(objRef, '2'),
+      new Pawn(objRef, '3'),
+      new Pawn(objRef, '4'),
+      new Pawn(objRef, '5'),
+      new Pawn(objRef, '6'),
+      new Pawn(objRef, '7'),
+      new Pawn(objRef, '8'),
     ];
 
     if (playerType==='white') {
-      for (let piece in this.pieces) this.pieces.piece.setType('white');
+      for (let piece in this.pieces) this.pieces[piece].setType('white');
       this.cursor = "ressources/cursor/dark_matter.png";
     } else if (playerType==='black') {
-      for (let piece in this.pieces) this.pieces.piece.setType('black');
+      for (let piece in this.pieces) this.pieces[piece].setType('black');
       this.cursor = "ressources/cursor/hot_matter";
     } else {
       // message d'erreur dans le cas où un mauvais parametre est passé
@@ -33,7 +33,8 @@ class Player {
   }
 
   init() { // A utiliser avec p5
-    // Initialiser les pieces, notamment charger les images
+    for (let piece in this.pieces) this.pieces.piece.init();
+
   }
 
 }

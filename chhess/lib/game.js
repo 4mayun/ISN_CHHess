@@ -18,7 +18,12 @@ class Game {
       }
 
       if (errorLevel) {
-        
+        console.warn(
+          "[ERROR]: GAME CLASS COULD NOT BE INSTANTIATED\n" +
+          "[ERROR]: *p5 errors incoming*" +
+          "[ERROR]: Verify that you set the right object name in the game constructor parameter as a string.\n" +
+          "[ERROR]: (See the beginning of game.js file for more details)"
+        );
       }
 
     }
