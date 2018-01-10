@@ -33,7 +33,7 @@ class Player {
   }
 
   init() { // A utiliser avec p5
-    // Initialiser les pieces
+    // Initialiser les pieces, notamment charger les images
   }
 
 }
