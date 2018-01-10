@@ -1,23 +1,27 @@
 // ATTENTION:
-// La chaine de caractire passie en paramitre du constructeur DOIT ETRE le
+// La chaine de caractere passee en parametre du constructeur DOIT ETRE le
 // nom de l'instance de cette classe
 // Exemple:
 //  var game = new Game('gaem')  //CECI N'EST PAS BON
-//  var gaem = new Game('gaem')  // ceci est bon
+//  var game = new Game('game')  // ceci est bon
 
 class Game {
   constructor(name) {
-    this.name = name;
+    { // Verification de l'objet
+      let errorLevel = 0;
+      this.superSecretKey = Math.random();
 
-    // Verification du parametre name
-    if (window[this.name]===undefined) {
-      // L'objet n'est pas bien initialise
-      console.warn("[ERROR]: GAME CLASS IS BADLY INSTANCED");
-      console.warn("[ERROR]: Verify that you set the object name in the constructor parameter as a string.");
-      console.warn("[ERROR]: (See the beginning of game.js file for more details)");
+      if (window[name]===undefined) { // L'objet n'est pas bien initialise
+        errorLevel = 1;
+      } else if (window[name].superSecretKey!==this.superSecretKey) {
+        errorLevel = 1;
+      }
+
+      if (errorLevel) {
+        
+      }
 
     }
-
     this.config = new Config();
     // Ajouter les deux joueurs...
 
@@ -26,13 +30,14 @@ class Game {
 
 
   init() { // A utiliser avec p5, dans setup
+
     frameRate(this.maxFrameRate);
   }
 
 
   setHoverCasing(mX, mY) { // A utiliser avec p5, dans mouseMoved
     mX -= width/2-this.config.sizeW/2;     // mX et mY se situent par rapport au coin supérieur gauche
-    mY -= height/2-this.config.sizeH/2;   //  de l'échiquier et non plus par rapport à l'origine du canvas
+    mY -= height/2-this.config.sizeH/2;   //  de l'echiquier et non plus par rapport à l'origine du canvas
 
     if (mX>=0 && mX<this.config.sizeW
       && mY>=0 && mY<this.config.sizeH) // Si la souris se situe au dessus de l'échiquier
