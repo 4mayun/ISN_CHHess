@@ -7,21 +7,7 @@
 
 class Game {
   constructor(name) {
-    { // Verification de l'objet
-      let errorLevel = 0;
-      this.superSecretKey = Math.random();
-
-      if (window[name]===undefined) { // L'objet n'est pas bien initialise
-        errorLevel = 1;
-      } else if (window[name].superSecretKey!==this.superSecretKey) {
-        errorLevel = 1;
-      }
-
-      if (errorLevel) {
-        
-      }
-
-    }
+    this.name = name;
     this.config = new Config();
     // Ajouter les deux joueurs...
 
@@ -30,8 +16,33 @@ class Game {
 
 
   init() { // A utiliser avec p5, dans setup
+    { // -----* Verification de l'objet *-----
+      let errorLevel = 0;
+      this.superSecretKey = Math.floor(1e8*Math.random());
 
-    frameRate(this.maxFrameRate);
+      if (window[this.name]===undefined) { // L'objet n'est pas bien initialise
+        errorLevel = 1;
+      } else if (window[this.name].superSecretKey!==this.superSecretKey) {
+        errorLevel = 1;
+      }
+
+      if (errorLevel) {
+        console.error(
+          "[ERROR]: GAME CLASS COULD NOT BE INSTANTIATED\n" +
+          "       : *p5 errors incoming*\n" +
+          "       : Verify that you set the right object name in the game constructor parameter as a string.\n" +
+          "       : (See the beginning of game.js file for more details)"
+        );
+        delete window[this.name];
+      } else {
+        console.info("[GAME]: Game has been correctly instantiated");
+      }
+
+      delete this.name;
+      delete this.superSecretKey;
+    } // -----* Fin de la vérification de l'objet *-----
+
+    frameRate(this.config.maxFrameRate);
   }
 
 

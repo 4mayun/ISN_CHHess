@@ -1,6 +1,6 @@
 const windowOffset = 25;
 
-var chess = new Game('saucisse');
+var chess = new Game("chess");
 
 function setup() {
   createCanvas(windowWidth-windowOffset, windowHeight-windowOffset);

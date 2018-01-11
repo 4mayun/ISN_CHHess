@@ -21,10 +21,10 @@ class Player {
     ];
 
     if (playerType==='white') {
-      for (let piece in this.pieces) this.pieces.piece.setType('white');
+      for (let piece in this.pieces) this.pieces[piece].setType('white');
       this.cursor = "ressources/cursor/dark_matter.png";
     } else if (playerType==='black') {
-      for (let piece in this.pieces) this.pieces.piece.setType('black');
+      for (let piece in this.pieces) this.pieces[piece].setType('black');
       this.cursor = "ressources/cursor/hot_matter";
     } else {
       // message d'erreur dans le cas où un mauvais parametre est passé
