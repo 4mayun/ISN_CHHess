@@ -1,7 +1,8 @@
 class Player {
-  constructor(objRef) {
-    window[objRef].config.square.size;
-    this.pieces = [
+  constructor(gameRef, playerType) {
+    this.gRef = gameRef; // Nom de l'objet game principal pour pouvoir acceder a l'objet config sans aucun souci, philosophie, hakuna matata
+
+    /* this.pieces = [
       new King(),
       new Queen(),
       new Bishop('left'),
@@ -18,14 +19,15 @@ class Player {
       new Pawn('6'),
       new Pawn('7'),
       new Pawn('8'),
-    ];
+    ]; */
 
+    // Definit le type des pieces en fonction du type du joueur + definit le curseur
     if (playerType==='white') {
       for (let piece in this.pieces) this.pieces[piece].setType('white');
-      this.cursor = "ressources/cursor/dark_matter.png";
+      this.cursor = window[this.gRef].config.cursor.dark;
     } else if (playerType==='black') {
       for (let piece in this.pieces) this.pieces[piece].setType('black');
-      this.cursor = "ressources/cursor/hot_matter";
+      this.cursor = window[this.gRef].config.cursor.hot;
     } else {
       // message d'erreur dans le cas où un mauvais parametre est passé
     }

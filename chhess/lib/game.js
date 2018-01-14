@@ -16,7 +16,7 @@ class Game {
 
 
   init() { // A utiliser avec p5, dans setup
-    { // -----* Verification de l'objet *-----
+    { // ----- Verification de l'objet -----
       let errorLevel = 0;
       this.superSecretKey = Math.floor(1e8*Math.random());
 
@@ -63,7 +63,7 @@ class Game {
 
       // Si la souris ne se situe pas entre deux cases
       if (column!==-1 && line!==-1) {
-        this.caseOn = {X: column, Y: line};
+        this.caseOn = {x: column, y: line};
         return;
       }
     }
@@ -73,9 +73,9 @@ class Game {
 
 
   draw() { //Dessin du jeu, a utiliser avec p5, dans le draw
-    background(this.config.backgroundColor);
+    background(this.config.backgroundColor); // Efface le canevas
 
-    for (let i = 0; i<this.config.num; i++) {
+    for (let i = 0; i<this.config.num; i++) { // Affiche les cases
       for (let j = 0; j<this.config.num; j++) {
         noStroke();
         // (!(i%2)&&!(j%2)||i%2&&j%2) ? fill(this.config.square.color1) : fill(this.config.square.color2);
@@ -93,8 +93,8 @@ class Game {
     if (this.caseOn) { // Si une case est survolée
       fill(128, 128, 128, 128);
       rect(
-        width/2-this.config.sizeW/2 + this.caseOn.X*(this.config.square.size+this.config.margin),
-        height/2-this.config.sizeH/2 + this.caseOn.Y*(this.config.square.size+this.config.margin),
+        width/2-this.config.sizeW/2 + this.caseOn.x*(this.config.square.size+this.config.margin),
+        height/2-this.config.sizeH/2 + this.caseOn.y*(this.config.square.size+this.config.margin),
         this.config.square.size,
         this.config.square.size,
         this.config.square.cornerRadius
