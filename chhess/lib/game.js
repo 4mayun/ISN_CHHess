@@ -42,6 +42,7 @@ class Game {
       delete this.superSecretKey;
     } // -----* Fin de la vérification de l'objet *-----
 
+    createCanvas(windowWidth-windowOffset, windowHeight-windowOffset);
     frameRate(this.config.maxFrameRate);
   }
 
@@ -100,5 +101,8 @@ class Game {
         this.config.square.cornerRadius
       );
     }
+
+    fill(255);
+    textSize(12); text(width+"x"+height+":  "+int(frameRate())+" fps", 1, height-2);
   }
 }
