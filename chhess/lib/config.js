@@ -10,7 +10,7 @@ class Config {
 
     this.maxFrameRate = 60;
 
-    this.cursor = {
+    this.cursor = { // Chemin vers les fichiers d'icônes
       dark: "ressources/cursor/dark_matter.png",
       hot: "ressources/cursor/hot_matter.png"
     };
