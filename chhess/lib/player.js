@@ -22,12 +22,10 @@ class Player {
     ]; */
 
     // Definit le type des pieces en fonction du type du joueur + definit le curseur
-    if (playerType==='white') {
-      for (let piece in this.pieces) this.pieces[piece].setType('white');
-      this.cursor = window[this.gRef].config.cursor.dark;
-    } else if (playerType==='black') {
-      for (let piece in this.pieces) this.pieces[piece].setType('black');
-      this.cursor = window[this.gRef].config.cursor.hot;
+    if (playerType==='white' || playerType==='black') {
+      for (let piece in this.pieces) this.pieces[piece].setType(playerType);
+      if (playerType=='white') this.cursor = window[this.gRef].config.cursor.dark;
+      if (playerType=='black') this.cursor = window[this.gRef].config.cursor.hot;
     } else {
       // message d'erreur dans le cas où un mauvais parametre est passé
     }
@@ -36,6 +34,10 @@ class Player {
 
   init() { // A utiliser avec p5
     // Initialiser les pieces
+  }
+
+  draw() {
+    // Dessin des pieces
   }
 
 }

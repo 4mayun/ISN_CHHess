@@ -5,8 +5,26 @@
 
 class Piece {
   constructor(gameRef) {
+    this.gRef = gameRef;
     if (this.constructor === Piece) console.error("[ERROR]: Can't instantiate a Piece object\n       : Piece is an abstract class\n"); // Verification de l'origine de la classe
 
-    this.gRef = gameRef;
+    this.type = undefined; // Sera défini plus tard
+    this.alive = true;
+  }
+
+  init() {
+    // Initialiser la piece
+  }
+
+  setType(pieceType) {
+    if (pieceType==='white' || pieceType==='black') {
+      this.type = pieceType;
+    } else {
+      // message d'erreur dans le cas où un mauvais parametre est passé
+    }
+  }
+
+  draw() {
+    // Dessin de la piece
   }
 }
