@@ -4,7 +4,9 @@
 // --> it's used to create classes for all pieces (king, queen, etc)
 
 class Piece {
-  constructor() {
+  constructor(gameRef) {
+    if (this.constructor === Piece) console.error("[ERROR]: Can't instantiate a Piece object\n       : Piece is an abstract class\n"); // Verification de l'origine de la classe
 
+    this.gRef = gameRef;
   }
 }
