@@ -1,9 +1,9 @@
 class King extends Piece {
-  constructor(gameRef) {
-    super(gameRef);
-  }
+    constructor(gameRef) {
+        super(gameRef);
+    }
 
-  init() {
-    // this.sprite = 
-  }
+    init() {
+        // this.sprite =
+    }
 }

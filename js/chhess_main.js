@@ -3,17 +3,17 @@ const windowOffset = 25;
 var chess = new Game("chess");
 
 function setup() {
-  chess.init();
+    chess.init();
 }
 
 function draw() {
-  chess.draw();
+    chess.draw();
 }
 
 function mouseMoved() {
-  chess.setHoverCasing(mouseX, mouseY);
+    chess.setHoverCasing(mouseX, mouseY);
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth-windowOffset, windowHeight-windowOffset);
+    resizeCanvas(windowWidth-windowOffset, windowHeight-windowOffset);
 }
