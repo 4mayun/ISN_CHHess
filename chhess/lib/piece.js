@@ -8,23 +8,23 @@ class Piece {
         this.gRef = gameRef;
         if (this.constructor === Piece) // Verification de l'origine de la classe
             console.error("[ERROR]: Can't instantiate a Piece object\n       : Piece is an abstract class\n");
-        this.type = undefined; // Sera défini plus tard
+        this.side = undefined; // Sera défini plus tard
         this.sprite = undefined; // Sera chargé dans init
         this.alive = true;
     }
 
-    init() {
-        if (this.type===undefined) {
-            console.error("[ERROR]: The type of this "+this.constructor.name+" piece hasn't been defined !");
-            console.error("       : Please review the code that is supposed to create and init this piece");
+    setSide(pieceSide) {
+        if (pieceSide==='white' || pieceSide==='black') {
+            this.side = pieceSide;
+        } else {
+            console.error("[ERROR]: You just set a "+this.constructor.name+" piece with a wrong side.");
         }
     }
 
-    setType(pieceType) {
-        if (pieceType==='white' || pieceType==='black') {
-            this.type = pieceType;
-        } else {
-            console.error("[ERROR]: You just set a "+this.constructor.name+" piece with a wrong type.");
+    init() {
+        if (this.side===undefined) { // Verifie que le type est bien defini
+            console.error("[ERROR]: The side of this "+this.constructor.name+" piece hasn't been defined !");
+            console.error("       : Please review the code which is supposed to create and init this piece");
         }
     }
 

@@ -4,6 +4,7 @@ class King extends Piece {
     }
 
     init() {
-        // this.sprite =
+        super.init();
+        this.sprite = loadImage(window[this.gRef].config.ressource.piece.king[this.side]);
     }
 }

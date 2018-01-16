@@ -1,5 +1,5 @@
 class Player {
-    constructor(gameRef, playerType) {
+    constructor(gameRef, playerSide) {
         this.gRef = gameRef; // Nom de l'objet game principal pour pouvoir acceder a l'objet config sans aucun souci, philosophie, hakuna matata
 
         /* this.pieces = [
@@ -22,10 +22,10 @@ class Player {
         ]; */
 
         // Definit le type des pieces en fonction du type du joueur + definit le curseur
-        if (playerType==='white' || playerType==='black') {
-            for (let piece in this.pieces) this.pieces[piece].setType(playerType);
-            if (playerType=='white') this.cursor = window[this.gRef].config.cursor.dark;
-            if (playerType=='black') this.cursor = window[this.gRef].config.cursor.hot;
+        if (playerSide==='white' || playerSide==='black') {
+            for (let piece in this.pieces) this.pieces[piece].setSide(playerSide);
+            if (playerSide=='white') this.cursor = window[this.gRef].config.cursor.dark;
+            if (playerSide=='black') this.cursor = window[this.gRef].config.cursor.hot;
         } else {
             // message d'erreur dans le cas où un mauvais parametre est passé
         }
