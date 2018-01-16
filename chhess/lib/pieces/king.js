@@ -3,8 +3,8 @@ class King extends Piece {
         super(gameRef);
     }
 
-    init() {
+    /* init() {
         super.init();
-        this.sprite = loadImage(window[this.gRef].config.ressource.piece.king[this.side]);
-    }
+
+    } */
 }
