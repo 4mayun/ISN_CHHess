@@ -8,9 +8,9 @@
 class Game {
     constructor(name) {
         this.name = name;
-        this.config = new Config();
-        // Ajouter les deux joueurs...
 
+        this.config = null;
+        this.player1 = null;
         this.caseOn = null;
     }
 
@@ -38,9 +38,14 @@ class Game {
                 console.info("[GAME]: Game has been correctly instantiated");
             }
 
-            delete this.name;
             delete this.superSecretKey;
         } // -----* Fin de la vérification de l'objet *-----
+
+        // Declaration de tous les attributs
+        this.config = new Config();
+        this.player1 = new Player(this.name, 'white');
+
+        this.player1.init();
 
         createCanvas(windowWidth-windowOffset, windowHeight-windowOffset);
         frameRate(this.config.maxFrameRate);
