@@ -1,4 +1,4 @@
-const windowOffset = 25;
+const windowOffset = 20;
 
 var chess = new Game("chess");
 
