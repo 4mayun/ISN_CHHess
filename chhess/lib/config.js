@@ -10,6 +10,57 @@ class Config {
 
         this.maxFrameRate = 60;
 
+        this.initialPos = {
+            king: {
+                white: {x: 4, y: 7},
+                black: {x: 4, y: 0}
+            },
+            queen: {
+                white: {x: 3, y: 7},
+                black: {x: 3, y: 0}
+            },
+            bishop: {
+                white: {
+                    left: {x: 2, y: 7},
+                    right: {x: 5, y: 7}
+                },
+                black: {
+                    left: {x: 2, y: 0},
+                    right: {x: 5, y: 0}
+                }
+            },
+            knight: {
+                white: {
+                    left: {x: 1, y: 7},
+                    right: {x: 6, y: 7}
+                },
+                black: {
+                    left: {x: 1, y: 0},
+                    right: {x: 6, y: 0}
+                }
+            },
+            rook: {
+                white: {
+                    left: {x: 0, y: 7},
+                    right: {x: 7, y: 7}
+                },
+                black: {
+                    left: {x: 0, y: 0},
+                    right: {x: 7, y: 0}
+                }
+            },
+            pawn: [
+                {white: {x: 0, y: 6}, black: {x: 0, y: 1}},
+                {white: {x: 1, y: 6}, black: {x: 1, y: 1}},
+                {white: {x: 2, y: 6}, black: {x: 2, y: 1}},
+                {white: {x: 3, y: 6}, black: {x: 3, y: 1}},
+                {white: {x: 4, y: 6}, black: {x: 4, y: 1}},
+                {white: {x: 5, y: 6}, black: {x: 5, y: 1}},
+                {white: {x: 6, y: 6}, black: {x: 6, y: 1}},
+                {white: {x: 7, y: 6}, black: {x: 7, y: 1}}
+            ]
+        }
+
         this.ressource = { // Chemins vers les fichiers ressources
             piece: {
                 king: {
