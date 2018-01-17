@@ -1,4 +1,4 @@
-const windowOffset = 20;
+const windowOffset = 21;
 
 var chess = new Game("chess");
 
@@ -15,7 +15,7 @@ function mouseMoved() {
 }
 
 function mousePressed() {
-    
+    chess.onClick();
 }
 
 function windowResized() {

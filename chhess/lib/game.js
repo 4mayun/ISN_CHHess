@@ -11,8 +11,11 @@ class Game {
 
         this.config = null;
         this.players = [];
+
         this.playing = 0;
         this.caseOn = null;
+        this.caseSelect = null;
+        this.selectables = [];
     }
 
 
@@ -86,6 +89,17 @@ class Game {
         }
     }
 
+    onClick() { // A utiliser avec p5, dans mousePressed
+        if (this.caseOn) { // Si une case est survolee lors du clic
+            if (!this.caseSelect) {
+                this.caseSelect = this.caseOn;
+            } else {
+                this.caseSelect = null;
+            }
+        }
+
+    }
+
 
     draw() { //Dessin du jeu, a utiliser avec p5, dans le draw
         background(this.config.backgroundColor); // Efface le canevas
@@ -107,9 +121,20 @@ class Game {
         // Dessin des pieces des joueurs
         for (let player in this.players) this.players[player].draw();
 
+        if (this.caseSelect) { // Si une case est selectionnee
+            stroke('green'); strokeWeight(this.config.margin); noFill();
+            rect( // Dessine le rectangle de selection
+                width/2-this.config.sizeW/2 + this.caseSelect.x*(this.config.square.size+this.config.margin),
+                height/2-this.config.sizeH/2 + this.caseSelect.y*(this.config.square.size+this.config.margin),
+                this.config.square.size,
+                this.config.square.size,
+                this.config.square.cornerRadius
+            );
+        }
 
-        if (this.caseOn) { // Si une case est survolée
-            fill(128, 128, 128, 128);
+
+        if (this.caseOn) { // Si une case est survolee
+            fill(128, 128, 128, 128); noStroke();
             rect( // Dessine le rectangle transparent
                 width/2-this.config.sizeW/2 + this.caseOn.x*(this.config.square.size+this.config.margin),
                 height/2-this.config.sizeH/2 + this.caseOn.y*(this.config.square.size+this.config.margin),
@@ -119,7 +144,7 @@ class Game {
             );
         }
 
-        fill(255);
+        fill(255); noStroke();
         textSize(12); text(width+"x"+height+":  "+int(frameRate())+" fps", 1, height-2);
     }
 }
