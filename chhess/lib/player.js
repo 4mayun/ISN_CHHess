@@ -2,7 +2,19 @@ class Player {
     constructor(gameRef, playerSide) {
         this.gRef = gameRef; // Nom de l'objet game principal pour pouvoir acceder a l'objet config sans aucun souci, philosophie, hakuna matata
 
-        this.pieces = [
+        // Verifie que le player side est bon et definit le curseur
+        if (playerSide==='white' || playerSide==='black') {
+            this.side = playerSide;
+            if (playerSide=='white') this.cursor = window[this.gRef].config.ressource.cursor.dark;
+            if (playerSide=='black') this.cursor = window[this.gRef].config.ressource.cursor.hot;
+        } else {
+            console.error("[ERROR]: "+playerSide+" is not a correct player side.");
+        }
+
+    }
+
+    init() { // A utiliser avec p5
+        this.pieces = [ // Declaration des pieces
             new King(this.gRef),
             /* new Queen(),
             new Bishop('left'),
@@ -21,24 +33,14 @@ class Player {
             new Pawn('8'), */
         ];
 
-        // Definit le type des pieces en fonction du type du joueur + definit le curseur
-        if (playerSide==='white' || playerSide==='black') {
-            this.side = playerSide;
-            for (let piece in this.pieces) this.pieces[piece].setSide(playerSide);
-            if (playerSide=='white') this.cursor = window[this.gRef].config.ressource.cursor.dark;
-            if (playerSide=='black') this.cursor = window[this.gRef].config.ressource.cursor.hot;
-        } else {
-            console.error("[ERROR]: "+playerSide+" is not a correct player side.");
-        }
-
-    }
-
-    init() { // A utiliser avec p5
-        for (let piece in this.pieces) this.pieces[piece].init();
+        for (let piece in this.pieces) this.pieces[piece].init(this.side);
     }
 
     draw() {
-        // Dessin des pieces
+        for (let piece in this.pieces) this.pieces[piece].draw();
     }
 
 }
+
+Player.PLAYER1 = 'white';
+Player.PLAYER2 = 'black';
