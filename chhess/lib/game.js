@@ -11,6 +11,8 @@ class Game {
 
         this.config = null;
         this.player1 = null;
+        this.player2 = null;
+
         this.caseOn = null;
     }
 
@@ -43,9 +45,11 @@ class Game {
 
         // Declaration de tous les attributs
         this.config = new Config();
-        this.player1 = new Player(this.name, 'white');
+        this.player1 = new Player(this.name, Player.PLAYER1);
+        this.player2 = new Player(this.name, Player.PLAYER2);
 
         this.player1.init();
+        this.player2.init();
 
         createCanvas(windowWidth-windowOffset, windowHeight-windowOffset);
         frameRate(this.config.maxFrameRate);
@@ -84,21 +88,25 @@ class Game {
         for (let i = 0; i<this.config.num; i++) { // Affiche les cases
             for (let j = 0; j<this.config.num; j++) {
                 noStroke();
-                // (!(i%2)&&!(j%2)||i%2&&j%2) ? fill(this.config.square.color1) : fill(this.config.square.color2);
                 ((i+j)%2) ? fill(this.config.square.color2) : fill(this.config.square.color1);
-                rect(
-                    width/2-this.config.sizeW/2 + i*this.config.square.size + i*this.config.margin,
-                    height/2-this.config.sizeH/2 + j*this.config.square.size + j*this.config.margin,
+                rect( // Dessin des cases
+                    width/2-this.config.sizeW/2 + i*(this.config.square.size + this.config.margin),
+                    height/2-this.config.sizeH/2 + j*(this.config.square.size + this.config.margin),
                     this.config.square.size,
                     this.config.square.size,
                     this.config.square.cornerRadius
-                ); // Dessin des cases
+                );
             }
         }
 
+        // Dessin des pieces des joueurs
+        this.player1.draw();
+        this.player2.draw();
+
+
         if (this.caseOn) { // Si une case est survolée
             fill(128, 128, 128, 128);
-            rect(
+            rect( // Dessine le rectangle transparent
                 width/2-this.config.sizeW/2 + this.caseOn.x*(this.config.square.size+this.config.margin),
                 height/2-this.config.sizeH/2 + this.caseOn.y*(this.config.square.size+this.config.margin),
                 this.config.square.size,
