@@ -8,10 +8,10 @@ class King extends Piece {
 
         this.pos = window[this.gRef].config.initialPos.king[this.side];
 
-        this.sprite = loadImage(
-            window[this.gRef].config.ressource.piece.king[this.side],
-            function() {console.info("[GAME]: King image as been correctly loaded.");},
-            function() {console.error("[ERROR]: King image failed to be loaded.");}
+        this.sprite = loadImage( // Charge l'image correspondant a la piece et sa couleur
+            window[this.gRef].config.ressource.piece.king[this.side], // Recupere le chemin vers l'image
+            function() {/* Empty function xd */},
+            function() {console.error("[ERROR]: Failed to load King image.");} // Failure callback
         );
     }
 }

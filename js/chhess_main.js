@@ -14,6 +14,10 @@ function mouseMoved() {
     chess.setHoverCasing(mouseX, mouseY);
 }
 
+function mousePressed() {
+    
+}
+
 function windowResized() {
     resizeCanvas(windowWidth-windowOffset, windowHeight-windowOffset);
 }

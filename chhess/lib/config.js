@@ -1,9 +1,9 @@
 class Config {
     constructor() {
-        this.square = {color1: 255, color2: 48, size: 80, cornerRadius: 5};
+        this.square = {color1: 255, color2: 64, size: 80, cornerRadius: 5};
         this.num = 8;        // l'échiquier est de 8 par 8 cases
         this.margin = 6;         // Marge entre les blocs en pixels
-        this.backgroundColor = 128; //La couleur du fond est un gris chelou
+        this.backgroundColor = 144; //La couleur du fond est un gris chelou
 
         this.sizeW = this.num*this.square.size+this.margin*(this.num-1);
         this.sizeH = this.num*this.square.size+this.margin*(this.num-1);

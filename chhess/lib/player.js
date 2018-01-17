@@ -1,6 +1,8 @@
 class Player {
     constructor(gameRef, playerSide) {
         this.gRef = gameRef; // Nom de l'objet game principal pour pouvoir acceder a l'objet config sans aucun souci, philosophie, hakuna matata
+        this.pieces = [];
+        this.cursor = undefined;
 
         // Verifie que le player side est bon et definit le curseur
         if (playerSide==='white' || playerSide==='black') {

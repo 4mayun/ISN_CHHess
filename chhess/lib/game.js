@@ -10,9 +10,8 @@ class Game {
         this.name = name;
 
         this.config = null;
-        this.player1 = null;
-        this.player2 = null;
-
+        this.players = [];
+        this.playing = 0;
         this.caseOn = null;
     }
 
@@ -45,12 +44,14 @@ class Game {
 
         // Declaration de tous les attributs
         this.config = new Config();
-        this.player1 = new Player(this.name, Player.PLAYER1);
-        this.player2 = new Player(this.name, Player.PLAYER2);
+        this.players = [
+            new Player(this.name, Player.PLAYER1),
+            new Player(this.name, Player.PLAYER2)
+        ];
 
-        this.player1.init();
-        this.player2.init();
+        for (let player in this.players) this.players[player].init();
 
+        cursor(this.players[this.playing].cursor);
         createCanvas(windowWidth-windowOffset, windowHeight-windowOffset);
         frameRate(this.config.maxFrameRate);
     }
@@ -60,8 +61,10 @@ class Game {
         mX -= width/2-this.config.sizeW/2;         // mX et mY se situent par rapport au coin supérieur gauche
         mY -= height/2-this.config.sizeH/2;     //    de l'echiquier et non plus par rapport à l'origine du canvas
 
-        if (mX>=0 && mX<this.config.sizeW
-            && mY>=0 && mY<this.config.sizeH) // Si la souris se situe au dessus de l'échiquier
+        this.caseOn = null; // Si la souris n'est pas au dessus de l'échiquier ou est entre deux cases
+
+        if (mX>=0 && mX<this.config.sizeW &&
+            mY>=0 && mY<this.config.sizeH) // Si la souris se situe au dessus de l'échiquier
         {
             let columnA = Math.floor(mX/(this.config.square.size+this.config.margin));
             let columnD = 7 - Math.floor((this.config.sizeW-mX)/(this.config.square.size+this.config.margin));
@@ -73,12 +76,14 @@ class Game {
 
             // Si la souris ne se situe pas entre deux cases
             if (column!==-1 && line!==-1) {
-                this.caseOn = {x: column, y: line};
-                return;
+                for (let piece of this.players[this.playing].pieces) {
+                    if (piece.pos.x===column && piece.pos.y===line) {
+                        this.caseOn = {x: column, y: line};
+                        break;
+                    }
+                }
             }
         }
-
-        this.caseOn = null; // Si la souris n'est pas au dessus de l'échiquier ou est entre deux cases
     }
 
 
@@ -100,8 +105,7 @@ class Game {
         }
 
         // Dessin des pieces des joueurs
-        this.player1.draw();
-        this.player2.draw();
+        for (let player in this.players) this.players[player].draw();
 
 
         if (this.caseOn) { // Si une case est survolée
