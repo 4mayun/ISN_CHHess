@@ -14,4 +14,17 @@ class King extends Piece {
             function() {console.error("[ERROR]: Failed to load King image.");} // Failure callback
         );
     }
+
+    canMoveOn() {
+        let caseArray = [];
+        for (let ri=-1; ri<2; ri++) {
+            for (let rj=-1; rj<2; rj++) {
+                let x = ri+this.pos.x, y = rj+this.pos.y;
+                if (x<0||x>7||y<0||y>7) continue;
+                if (ri==0 && rj==0) continue;
+                caseArray.push({x: x, y: y});
+            }
+        }
+        return caseArray;
+    }
 }

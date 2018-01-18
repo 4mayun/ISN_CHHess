@@ -15,7 +15,7 @@ class Game {
         this.playing = 0;
         this.caseOn = null;
         this.caseSelect = null;
-        this.selectables = [];
+        this.canMoveOn = [];
     }
 
 
@@ -85,6 +85,14 @@ class Game {
                         break;
                     }
                 }
+                if (this.canMoveOn) {
+                    for (let piece of this.canMoveOn) {
+                        if (piece.x===column && piece.y===line) {
+                            this.caseOn = {x: piece.x, y: piece.y};
+                            break;
+                        }
+                    }
+                }
             }
         }
     }
@@ -93,11 +101,34 @@ class Game {
         if (this.caseOn) { // Si une case est survolee lors du clic
             if (!this.caseSelect) {
                 this.caseSelect = this.caseOn;
+                for (let piece in this.players[this.playing].pieces) {
+                    if (this.players[this.playing].pieces[piece].pos.x===this.caseSelect.x &&
+                        this.players[this.playing].pieces[piece].pos.y===this.caseSelect.y)
+                    {
+                        this.canMoveOn = this.players[this.playing].pieces[piece].canMoveOn();
+                        break;
+                    }
+                }
             } else {
+                if (this.caseOn !== this.caseSelect) {
+                    for (let piece in this.players[this.playing].pieces) {
+                        if (this.players[this.playing].pieces[piece].pos.x===this.caseSelect.x &&
+                            this.players[this.playing].pieces[piece].pos.y===this.caseSelect.y)
+                        {
+                            this.players[this.playing].pieces[piece].move(this.caseOn.x, this.caseOn.y);
+                            break;
+                        }
+                    }
+
+                    this.playing++;
+                    if (this.playing===this.players.length) this.playing = 0;
+                    cursor(this.players[this.playing].cursor);
+                }
+
                 this.caseSelect = null;
+                this.canMoveOn = null;
             }
         }
-
     }
 
 
@@ -132,6 +163,18 @@ class Game {
             );
         }
 
+        if (this.canMoveOn) {
+            for (let i of this.canMoveOn) {
+                fill(0, 0, 255, 128); noStroke();
+                rect(
+                    width/2-this.config.sizeW/2 + i.x*(this.config.square.size+this.config.margin),
+                    height/2-this.config.sizeH/2 + i.y*(this.config.square.size+this.config.margin),
+                    this.config.square.size,
+                    this.config.square.size,
+                    this.config.square.cornerRadius
+                );
+            }
+        }
 
         if (this.caseOn) { // Si une case est survolee
             fill(128, 128, 128, 128); noStroke();

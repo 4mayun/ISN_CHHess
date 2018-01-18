@@ -26,12 +26,23 @@ class Piece {
     }
 
     draw() {
-        image( // Dessine la piece sur l'echiquier
-            this.sprite,
-            this.pos.x*(window[this.gRef].config.square.size + window[this.gRef].config.margin) + width/2-window[this.gRef].config.sizeW/2,
-            this.pos.y*(window[this.gRef].config.square.size + window[this.gRef].config.margin) + height/2-window[this.gRef].config.sizeH/2,
-            window[this.gRef].config.square.size,
-            window[this.gRef].config.square.size
-        );
+        if (this.alive) {
+            image( // Dessine la piece sur l'echiquier
+                this.sprite,
+                this.pos.x*(window[this.gRef].config.square.size+window[this.gRef].config.margin) + width/2-window[this.gRef].config.sizeW/2,
+                this.pos.y*(window[this.gRef].config.square.size+window[this.gRef].config.margin) + height/2-window[this.gRef].config.sizeH/2,
+                window[this.gRef].config.square.size,
+                window[this.gRef].config.square.size
+            );
+        }
+    }
+
+    move(x, y) {
+        if (x===this.pos.x && y===this.pos.y) {
+            console.error("Tu peux paaaas déplacer au meme endroit t'es con ou quoi ? spece de "+Math.random());
+        }
+
+        this.pos.x = x;
+        this.pos.y = y;
     }
 }
