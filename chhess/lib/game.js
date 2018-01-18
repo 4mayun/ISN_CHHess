@@ -163,9 +163,10 @@ class Game {
             );
         }
 
-        if (this.canMoveOn) {
+        if (this.canMoveOn) { // Si on peut se déplacer sur une ou des cases
             for (let i of this.canMoveOn) {
-                fill(0, 0, 255, 128); noStroke();
+                (i.canAttack) ? fill(255, 0, 0, 128) : fill(0, 0, 255, 128);
+                noStroke();
                 rect(
                     width/2-this.config.sizeW/2 + i.x*(this.config.square.size+this.config.margin),
                     height/2-this.config.sizeH/2 + i.y*(this.config.square.size+this.config.margin),
