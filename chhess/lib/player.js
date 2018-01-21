@@ -1,48 +1,37 @@
 class Player {
     constructor(gameRef, playerSide) {
         this.gRef = gameRef; // Nom de l'objet game principal pour pouvoir acceder a l'objet config sans aucun souci, philosophie, hakuna matata
-        this.pieces = [];
-        this.cursor = undefined;
+        this.cursor = undefined; // Sera defini dans init
 
-        // Verifie que le player side est bon et definit le curseur
+        // Verifie que le player side est bon et le définit
         if (playerSide==='white' || playerSide==='black') {
             this.side = playerSide;
-            if (playerSide=='white') this.cursor = window[this.gRef].config.ressource.cursor.dark;
-            if (playerSide=='black') this.cursor = window[this.gRef].config.ressource.cursor.hot;
         } else {
             console.error("[ERROR]: "+playerSide+" is not a correct player side.");
         }
 
     }
 
-    init() { // A utiliser avec p5
-        this.pieces = [ // Declaration des pieces
-            new King(this.gRef),
-            /* new Queen(),
-            new Bishop('left'),
-            new Bishop('right'),
-            new Knight('left'),
-            new Knight('right'),
-            new Rook('left'),
-            new Rook('right'),
-            new Pawn('1'),
-            new Pawn('2'),
-            new Pawn('3'),
-            new Pawn('4'),
-            new Pawn('5'),
-            new Pawn('6'),
-            new Pawn('7'),
-            new Pawn('8'), */
-        ];
+    init() { // Sera utilisé avec p5
+        // Set les curseurs
+        if (this.side=='white') this.cursor = window[this.gRef].config.ressource.cursor.dark;
+        if (this.side=='black') this.cursor = window[this.gRef].config.ressource.cursor.hot;
 
-        for (let piece in this.pieces) this.pieces[piece].init(this.side);
-    }
-
-    draw() {
-        for (let piece in this.pieces) this.pieces[piece].draw();
+        // Place les pieces du joueur dans l'echiquier
+        for (let piece in window[this.gRef].config.initialPos[this.side]) {
+            for (let coord of window[this.gRef].config.initialPos[this.side][piece]) {
+                window[this.gRef].chessboard[coord.x][coord.y] = new Piece(this.gRef, piece, this.side);
+            }
+        }
     }
 
 }
 
-Player.PLAYER1 = 'white';
-Player.PLAYER2 = 'black';
+function afficheEchiquier() {
+    console.log("Voici l'échiquier:");
+    for (let i=0; i<8; i++) {
+        let ligne = "| "+chess.chessboard[i][0].type+" | "+chess.chessboard[i][1].type+" | "+chess.chessboard[i][2].type+" | "+chess.chessboard[i][3].type+" | "
+            +chess.chessboard[i][4].type+" | "+chess.chessboard[i][5].type+" | "+chess.chessboard[i][6].type+" | "+chess.chessboard[i][7].type+" | ";
+        console.log(ligne);
+    }
+}

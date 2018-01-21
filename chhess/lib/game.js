@@ -10,12 +10,20 @@ class Game {
         this.name = name;
 
         this.config = null;
-        this.players = [];
+        this.chessboard = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ];
 
-        this.playing = 0;
+        this.playing = 'white';
         this.caseOn = null;
         this.caseSelect = null;
-        this.canMoveOn = [];
     }
 
 
@@ -47,12 +55,20 @@ class Game {
 
         // Declaration de tous les attributs
         this.config = new Config();
-        this.players = [
-            new Player(this.name, Player.PLAYER1),
-            new Player(this.name, Player.PLAYER2)
-        ];
+        this.players = {
+            white: new Player(this.name, 'white'),
+            black: new Player(this.name, 'black')
+        };
 
+        // Initialise les joueurs
         for (let player in this.players) this.players[player].init();
+
+        // Initialise les pieces
+        for (let array of this.chessboard) {
+            for (let piece of array) {
+                if (piece) piece.init();
+            }
+        }
 
         cursor(this.players[this.playing].cursor);
         createCanvas(windowWidth-windowOffset, windowHeight-windowOffset);
@@ -79,54 +95,28 @@ class Game {
 
             // Si la souris ne se situe pas entre deux cases
             if (column!==-1 && line!==-1) {
-                for (let piece of this.players[this.playing].pieces) {
-                    if (piece.pos.x===column && piece.pos.y===line) {
-                        this.caseOn = {x: column, y: line};
-                        break;
-                    }
-                }
-                if (this.canMoveOn) {
-                    for (let piece of this.canMoveOn) {
-                        if (piece.x===column && piece.y===line) {
-                            this.caseOn = {x: piece.x, y: piece.y};
-                            break;
-                        }
-                    }
+                if (this.chessboard[column][line].side===this.playing) { // Si la case survolee appartient au joueur
+                    this.caseOn = {x: column, y: line};
                 }
             }
         }
     }
 
     onClick() { // A utiliser avec p5, dans mousePressed
-        if (this.caseOn) { // Si une case est survolee lors du clic
-            if (!this.caseSelect) {
-                this.caseSelect = this.caseOn;
-                for (let piece in this.players[this.playing].pieces) {
-                    if (this.players[this.playing].pieces[piece].pos.x===this.caseSelect.x &&
-                        this.players[this.playing].pieces[piece].pos.y===this.caseSelect.y)
-                    {
-                        this.canMoveOn = this.players[this.playing].pieces[piece].canMoveOn();
-                        break;
-                    }
+        if (this.caseOn) { // Si un case est survolee
+            if (this.caseSelect) { // Si une case est selectionnee
+                if (this.caseOn == this.caseSelect) {
+                    console.log("La case survolee est la meme que celle precedemment selectionnee, donc on enleve la case selectionnee");
+                    this.caseSelect = null;
+                } else {
+                    // PUTAIN LE JAVASCRIPT C'EST DE LA MERDE: GO FIXER CA
+                    console.log("("+this.caseOn.x+";"+this.caseOn.y+") est different de ("+this.caseSelect.x+";"+this.caseSelect.y+"). Dommage..");
+                    console.log("Le booleen exact retourne: "+(this.caseOn == this.caseSelect));
+                    // Si la case cliquee est une case sur laquelle se deplacer ou attaquer
                 }
             } else {
-                if (this.caseOn !== this.caseSelect) {
-                    for (let piece in this.players[this.playing].pieces) {
-                        if (this.players[this.playing].pieces[piece].pos.x===this.caseSelect.x &&
-                            this.players[this.playing].pieces[piece].pos.y===this.caseSelect.y)
-                        {
-                            this.players[this.playing].pieces[piece].move(this.caseOn.x, this.caseOn.y);
-                            break;
-                        }
-                    }
-
-                    this.playing++;
-                    if (this.playing===this.players.length) this.playing = 0;
-                    cursor(this.players[this.playing].cursor);
-                }
-
-                this.caseSelect = null;
-                this.canMoveOn = null;
+                console.log("Il n'y a pas de case survolee, donc la case selectionne est la case survolee.");
+                this.caseSelect = this.caseOn;
             }
         }
     }
@@ -149,31 +139,10 @@ class Game {
             }
         }
 
-        // Dessin des pieces des joueurs
-        for (let player in this.players) this.players[player].draw();
-
-        if (this.caseSelect) { // Si une case est selectionnee
-            stroke('green'); strokeWeight(this.config.margin); noFill();
-            rect( // Dessine le rectangle de selection
-                width/2-this.config.sizeW/2 + this.caseSelect.x*(this.config.square.size+this.config.margin),
-                height/2-this.config.sizeH/2 + this.caseSelect.y*(this.config.square.size+this.config.margin),
-                this.config.square.size,
-                this.config.square.size,
-                this.config.square.cornerRadius
-            );
-        }
-
-        if (this.canMoveOn) { // Si on peut se déplacer sur une ou des cases
-            for (let i of this.canMoveOn) {
-                (i.canAttack) ? fill(255, 0, 0, 128) : fill(0, 0, 255, 128);
-                noStroke();
-                rect(
-                    width/2-this.config.sizeW/2 + i.x*(this.config.square.size+this.config.margin),
-                    height/2-this.config.sizeH/2 + i.y*(this.config.square.size+this.config.margin),
-                    this.config.square.size,
-                    this.config.square.size,
-                    this.config.square.cornerRadius
-                );
+        // Dessin des pieces
+        for (let array in this.chessboard) {
+            for (let piece in this.chessboard[array]) {
+                if (this.chessboard[array][piece]) this.chessboard[array][piece].draw(array, piece);
             }
         }
 
@@ -182,6 +151,17 @@ class Game {
             rect( // Dessine le rectangle transparent
                 width/2-this.config.sizeW/2 + this.caseOn.x*(this.config.square.size+this.config.margin),
                 height/2-this.config.sizeH/2 + this.caseOn.y*(this.config.square.size+this.config.margin),
+                this.config.square.size,
+                this.config.square.size,
+                this.config.square.cornerRadius
+            );
+        }
+
+        if (this.caseSelect) { // Si une case est selectionnee
+            stroke('green'); strokeWeight(this.config.margin); noFill();
+            rect( // Dessine le rectangle de selection
+                width/2-this.config.sizeW/2 + this.caseSelect.x*(this.config.square.size+this.config.margin),
+                height/2-this.config.sizeH/2 + this.caseSelect.y*(this.config.square.size+this.config.margin),
                 this.config.square.size,
                 this.config.square.size,
                 this.config.square.cornerRadius
