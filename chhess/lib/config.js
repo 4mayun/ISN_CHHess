@@ -11,58 +11,75 @@ class Config {
         this.maxFrameRate = 60;
 
         this.initialPos = {
-            king: {
-                white: {x: 4, y: 7},
-                black: {x: 4, y: 0}
+            white: {
+                king: [
+                    {x: 4, y: 7}
+                ],
+                queen: [
+                    {x: 3, y: 7}
+                ],
+                bishop: [
+                    {x: 2, y: 7},
+                    {x: 5, y: 7}
+                ],
+                knight: [
+                    {x: 1, y: 7},
+                    {x: 6, y: 7}
+                ],
+                rook: [
+                    {x: 0, y: 7},
+                    {x: 7, y: 7}
+                ],
+                pawn: [
+                    {x: 0, y: 6},
+                    {x: 1, y: 6},
+                    {x: 2, y: 6},
+                    {x: 3, y: 6},
+                    {x: 4, y: 6},
+                    {x: 5, y: 6},
+                    {x: 6, y: 6},
+                    {x: 7, y: 6}
+                ]
             },
-            queen: {
-                white: {x: 3, y: 7},
-                black: {x: 3, y: 0}
-            },
-            bishop: {
-                white: {
-                    left: {x: 2, y: 7},
-                    right: {x: 5, y: 7}
-                },
-                black: {
-                    left: {x: 2, y: 0},
-                    right: {x: 5, y: 0}
-                }
-            },
-            knight: {
-                white: {
-                    left: {x: 1, y: 7},
-                    right: {x: 6, y: 7}
-                },
-                black: {
-                    left: {x: 1, y: 0},
-                    right: {x: 6, y: 0}
-                }
-            },
-            rook: {
-                white: {
-                    left: {x: 0, y: 7},
-                    right: {x: 7, y: 7}
-                },
-                black: {
-                    left: {x: 0, y: 0},
-                    right: {x: 7, y: 0}
-                }
-            },
-            pawn: [
-                {white: {x: 0, y: 6}, black: {x: 0, y: 1}},
-                {white: {x: 1, y: 6}, black: {x: 1, y: 1}},
-                {white: {x: 2, y: 6}, black: {x: 2, y: 1}},
-                {white: {x: 3, y: 6}, black: {x: 3, y: 1}},
-                {white: {x: 4, y: 6}, black: {x: 4, y: 1}},
-                {white: {x: 5, y: 6}, black: {x: 5, y: 1}},
-                {white: {x: 6, y: 6}, black: {x: 6, y: 1}},
-                {white: {x: 7, y: 6}, black: {x: 7, y: 1}}
-            ]
+            black: {
+                king: [
+                    {x: 4, y: 0}
+                ],
+                queen: [
+                    {x: 3, y: 0}
+                ],
+                bishop: [
+                    {x: 2, y: 0},
+                    {x: 5, y: 0}
+                ],
+                knight: [
+                    {x: 1, y: 0},
+                    {x: 6, y: 0}
+                ],
+                rook: [
+                    {x: 0, y: 0},
+                    {x: 7, y: 0}
+                ],
+                pawn: [
+                    {x: 0, y: 1},
+                    {x: 1, y: 1},
+                    {x: 2, y: 1},
+                    {x: 3, y: 1},
+                    {x: 4, y: 1},
+                    {x: 5, y: 1},
+                    {x: 6, y: 1},
+                    {x: 7, y: 1}
+                ]
+            }
         }
 
         this.ressource = { // Chemins vers les fichiers ressources
-            piece: {
+            cursor: { // Chemin vers les fichiers d'icônes
+                dark: "chhess/ressources/cursor/dark_matter.png",
+                hot: "chhess/ressources/cursor/hot_matter.png"
+            },
+
+            piece: { // Chemin vers les fchiers d'images des pieces
                 king: {
                     white: "chhess/ressources/pieces/roi_blanc.png",
                     black: "chhess/ressources/pieces/roi_noir.png"
@@ -87,10 +104,6 @@ class Config {
                     white: "chhess/ressources/pieces/pion_blanc.png",
                     black: "chhess/ressources/pieces/pion_noir.png"
                 }
-            },
-            cursor: { // Chemin vers les fichiers d'icônes
-                dark: "chhess/ressources/cursor/dark_matter.png",
-                hot: "chhess/ressources/cursor/hot_matter.png"
             }
         };
     }
