@@ -10,11 +10,12 @@ class Game {
         this.name = name;
 
         this.config = null;
-        this.chessboard = generateMatrix(8, 0);
+        this.chessboard = generateMatrix(8);
 
         this.playing = 'white';
         this.caseOn = null;
         this.caseSelect = null;
+        this.interacts = null;
     }
 
 
@@ -53,6 +54,7 @@ class Game {
 
         // Initialise les joueurs
         for (let player in this.players) this.players[player].init();
+        this.chessboard[4][2] = new Piece(this.name, 'king', 'white');
 
         // Initialise les pieces
         for (let array of this.chessboard) {
@@ -86,7 +88,7 @@ class Game {
 
             // Si la souris ne se situe pas entre deux cases
             if (column!==-1 && line!==-1) {
-                if (this.chessboard[column][line].side===this.playing) { // Si la case survolee appartient au joueur
+                if (this.chessboard[column][line] && this.chessboard[column][line].side===this.playing) { // Si la case survolee contient une piece et si elle appartient au joueur
                     this.caseOn = {x: column, y: line};
                 }
             }
@@ -98,11 +100,16 @@ class Game {
             if (this.caseSelect) { // Si une case est selectionnee
                 if (this.caseOn.x == this.caseSelect.x && this.caseOn.y == this.caseSelect.y) {
                     this.caseSelect = null;
+                    this.interacts = null;
                 } else {
                     // Si la case cliquee est une case sur laquelle se deplacer ou attaquer
+                    // ou si la case cliquee est une autre piece appartenant au meme joueur
+                    // ou si la case cliquee est une case vide
                 }
             } else {
                 this.caseSelect = this.caseOn;
+                let x = this.caseSelect.x, y = this.caseSelect.y;
+                this.interacts = this.chessboard[x][y].interact(x, y);
             }
         }
     }
@@ -132,11 +139,33 @@ class Game {
             }
         }
 
+        if (this.interacts) {
+            for (let array in this.interacts) {
+                for (let piece in this.interacts[array]) {
+                    if (this.interacts[array][piece]) {
+                        if (this.interacts[array][piece].canAttack) {
+                            fill(255, 0, 0, 96); // Set la couleur sur du rouge, à moitié transparent
+                        } else {
+                            fill(0, 0, 255, 96); // Set la couleur sur du bleu, à moitié transparent
+                        }
+                        noStroke();
+                        rect(
+                            array*(this.config.square.size+this.config.margin) + width/2-this.config.sizeW/2,
+                            piece*(this.config.square.size+this.config.margin) + height/2-this.config.sizeH/2,
+                            this.config.square.size,
+                            this.config.square.size,
+                            this.config.square.cornerRadius
+                        );
+                    }
+                }
+            }
+        }
+
         if (this.caseOn) { // Si une case est survolee
             fill(128, 128, 128, 128); noStroke();
             rect( // Dessine le rectangle transparent
-                width/2-this.config.sizeW/2 + this.caseOn.x*(this.config.square.size+this.config.margin),
-                height/2-this.config.sizeH/2 + this.caseOn.y*(this.config.square.size+this.config.margin),
+                this.caseOn.x*(this.config.square.size+this.config.margin) + width/2-this.config.sizeW/2,
+                this.caseOn.y*(this.config.square.size+this.config.margin) + height/2-this.config.sizeH/2,
                 this.config.square.size,
                 this.config.square.size,
                 this.config.square.cornerRadius
@@ -146,8 +175,8 @@ class Game {
         if (this.caseSelect) { // Si une case est selectionnee
             stroke('green'); strokeWeight(this.config.margin); noFill();
             rect( // Dessine le rectangle de selection
-                width/2-this.config.sizeW/2 + this.caseSelect.x*(this.config.square.size+this.config.margin),
-                height/2-this.config.sizeH/2 + this.caseSelect.y*(this.config.square.size+this.config.margin),
+                this.caseSelect.x*(this.config.square.size+this.config.margin) + width/2-this.config.sizeW/2,
+                this.caseSelect.y*(this.config.square.size+this.config.margin) + height/2-this.config.sizeH/2,
                 this.config.square.size,
                 this.config.square.size,
                 this.config.square.cornerRadius

@@ -10,6 +10,15 @@ class Config {
 
         this.maxFrameRate = 60;
 
+        this.behavior = {
+            king: "",
+            queen: "",
+            bishop: "",
+            knight: "",
+            rook: "",
+            pawn: ""
+        };
+
         this.initialPos = {
             white: {
                 king: [
@@ -71,7 +80,7 @@ class Config {
                     {x: 7, y: 1}
                 ]
             }
-        }
+        };
 
         this.ressource = { // Chemins vers les fichiers ressources
             cursor: { // Chemin vers les fichiers d'icônes
