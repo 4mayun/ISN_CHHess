@@ -96,17 +96,12 @@ class Game {
     onClick() { // A utiliser avec p5, dans mousePressed
         if (this.caseOn) { // Si un case est survolee
             if (this.caseSelect) { // Si une case est selectionnee
-                if (this.caseOn == this.caseSelect) {
-                    console.log("La case survolee est la meme que celle precedemment selectionnee, donc on enleve la case selectionnee");
+                if (this.caseOn.x == this.caseSelect.x && this.caseOn.y == this.caseSelect.y) {
                     this.caseSelect = null;
                 } else {
-                    // PUTAIN LE JAVASCRIPT C'EST DE LA MERDE: GO FIXER CA
-                    console.log("("+this.caseOn.x+";"+this.caseOn.y+") est different de ("+this.caseSelect.x+";"+this.caseSelect.y+"). Dommage..");
-                    console.log("Le booleen exact retourne: "+(this.caseOn == this.caseSelect));
                     // Si la case cliquee est une case sur laquelle se deplacer ou attaquer
                 }
             } else {
-                console.log("Il n'y a pas de case survolee, donc la case selectionne est la case survolee.");
                 this.caseSelect = this.caseOn;
             }
         }
