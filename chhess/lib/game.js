@@ -10,7 +10,7 @@ class Game {
         this.name = name;
 
         this.config = null;
-        this.chessboard = generateMatrix(8);
+        this.chessboard = generateMatrix(8, null);
 
         this.playing = 'white';
         this.caseOn = null;
@@ -54,7 +54,6 @@ class Game {
 
         // Initialise les joueurs
         for (let player in this.players) this.players[player].init();
-        this.chessboard[4][2] = new Piece(this.name, 'king', 'white');
 
         // Initialise les pieces
         for (let array of this.chessboard) {
@@ -88,29 +87,45 @@ class Game {
 
             // Si la souris ne se situe pas entre deux cases
             if (column!==-1 && line!==-1) {
-                if (this.chessboard[column][line] && this.chessboard[column][line].side===this.playing) { // Si la case survolee contient une piece et si elle appartient au joueur
+                if (this.chessboard[column][line] && this.chessboard[column][line].side===this.playing ||
+                    this.interacts && this.interacts[column][line])
+                { // Si la case survolee contient une piece et si elle appartient au joueur
                     this.caseOn = {x: column, y: line};
                 }
             }
         }
     }
 
+
     onClick() { // A utiliser avec p5, dans mousePressed
         if (this.caseOn) { // Si un case est survolee
+            let selectCase = false;
+
             if (this.caseSelect) { // Si une case est selectionnee
-                if (this.caseOn.x == this.caseSelect.x && this.caseOn.y == this.caseSelect.y) {
-                    this.caseSelect = null;
+                if (this.caseOn.x == this.caseSelect.x && this.caseOn.y == this.caseSelect.y) { // Si la case cliquee est la meme que la case selectionnee
+                    this.caseSelect = null; // Deselectionne la case
                     this.interacts = null;
-                } else {
-                    // Si la case cliquee est une case sur laquelle se deplacer ou attaquer
-                    // ou si la case cliquee est une autre piece appartenant au meme joueur
-                    // ou si la case cliquee est une case vide
+                } else { // Si la case cliquee n'est pas la meme que la case selectionnee
+                    let x = this.caseOn.x, y = this.caseOn.y;
+                    if (this.chessboard[x][y] && this.chessboard[x][y].side === this.playing) selectCase = true;
+
+                    if (this.interacts[x][y]) {
+                        this.players[this.playing].move(this.caseSelect.x, this.caseSelect.y, x, y);
+                    }
                 }
             } else {
+                selectCase = true;
+            }
+
+            if (selectCase) {
                 this.caseSelect = this.caseOn;
                 let x = this.caseSelect.x, y = this.caseSelect.y;
+                this.interacts = null;
                 this.interacts = this.chessboard[x][y].interact(x, y);
             }
+        } else {
+            this.caseSelect = null;
+            this.interacts = null;
         }
     }
 

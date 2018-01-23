@@ -25,4 +25,37 @@ class Player {
         }
     }
 
+    move(sx, sy, dx, dy) {
+        if (!window[this.gRef].chessboard[sx][sy]) {
+            console.log("Piece move error: there is no piece on ("+sx+";"+sy+") case.");
+            return;
+        }
+
+        if (window[this.gRef].chessboard[sx][sy].side != this.side) {
+            console.log("Piece move error: a "+this.side+" player can't move a "+window[this.gRef].chessboard[sx][sy].side+" piece !");
+            return;
+        }
+
+        if (window[this.gRef].chessboard[dx][dy] && window[this.gRef].chessboard[dx][dy].side == this.side) {
+            console.log("Piece move error: a "+this.side+" player can't move a piece on another "+window[this.gRef].chessboard[sx][sy].side+" piece !");
+            return;
+        }
+
+        let newPlayer;
+        switch (window[this.gRef].playing) {
+            case 'white': newPlayer = 'black'; break;
+            case 'black': newPlayer = 'white'; break;
+            default:
+                console.log("Piece move error: Please don't code à trois heure du mat fdp.");
+                return;
+        }
+
+        // window[this.gRef].playing = newPlayer;
+
+        window[this.gRef].chessboard[dx][dy] = window[this.gRef].chessboard[sx][sy];
+        window[this.gRef].chessboard[sx][sy] = null;
+
+        window[this.gRef].caseSelect = null;
+        window[this.gRef].interacts  = null;
+    }
 }
