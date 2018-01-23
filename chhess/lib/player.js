@@ -26,12 +26,3 @@ class Player {
     }
 
 }
-
-function afficheEchiquier() {
-    console.log("Voici l'échiquier:");
-    for (let i=0; i<8; i++) {
-        let ligne = "| "+chess.chessboard[i][0].type+" | "+chess.chessboard[i][1].type+" | "+chess.chessboard[i][2].type+" | "+chess.chessboard[i][3].type+" | "
-            +chess.chessboard[i][4].type+" | "+chess.chessboard[i][5].type+" | "+chess.chessboard[i][6].type+" | "+chess.chessboard[i][7].type+" | ";
-        console.log(ligne);
-    }
-}
