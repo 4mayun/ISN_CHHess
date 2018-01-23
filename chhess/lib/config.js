@@ -22,7 +22,8 @@ class Config {
         this.initialPos = {
             white: {
                 king: [
-                    {x: 4, y: 7}
+                    {x: 4, y: 7},
+                    {x: 3, y: 2}
                 ],
                 queen: [
                     {x: 3, y: 7}
