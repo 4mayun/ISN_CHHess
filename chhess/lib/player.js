@@ -2,6 +2,7 @@ class Player {
     constructor(gameRef, playerSide) {
         this.gRef = gameRef; // Nom de l'objet game principal pour pouvoir acceder a l'objet config sans aucun souci, philosophie, hakuna matata
         this.cursor = undefined; // Sera defini dans init
+        this.theDeadOnes = [];
 
         // Verifie que le player side est bon et le définit
         if (playerSide==='white' || playerSide==='black') {
@@ -51,6 +52,11 @@ class Player {
         }
 
         // window[this.gRef].playing = newPlayer;
+
+        if (window[this.gRef].interacts[dx][dy].canAttack) {
+            window[this.gRef].players[window[this.gRef].playing].theDeadOnes.push(window[this.gRef].chessboard[dx][dy]);
+            
+        }
 
         window[this.gRef].chessboard[dx][dy] = window[this.gRef].chessboard[sx][sy];
         window[this.gRef].chessboard[sx][sy] = null;
