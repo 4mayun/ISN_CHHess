@@ -12,11 +12,12 @@ class Piece {
         this.sprite = loadImage( // Charge l'image correspondant a la piece et sa couleur
             window[this.gRef].config.ressource.piece[this.type][this.side], // Recupere le chemin vers l'image
             function() {/* Empty function xd */},
-            function() {console.error("[ERROR]: Failed to load King image.");} // Failure callback
+            function() {console.error("[ERROR]: Failed to load "+this.type+" image.");} // Failure callback
         );
 
         if (this.type == 'king') {
-            this.interact = function(mx, my) {
+            this.interact = new Function('mx', 'my', window[this.gRef].config.behavior.king);
+            /* this.interact = function(mx, my) {
                 let matrix = generateMatrix(8);
 
                 for (let  ri=-1; ri<2; ri++) {
@@ -39,7 +40,7 @@ class Piece {
                 }
 
                 return matrix;
-            }
+            } */
         }
     }
 

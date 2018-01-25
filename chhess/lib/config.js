@@ -11,7 +11,30 @@ class Config {
         this.maxFrameRate = 60;
 
         this.behavior = {
-            king: "",
+            king: "\
+                let matrix = generateMatrix(8);\
+                \
+                for (let  ri=-1; ri<2; ri++) {\
+                    for (let rj=-1; rj<2; rj++) {\
+                        let x = mx+ri, y = my+rj, canAttack = false;\
+                        \
+                        if (ri==0 && rj==0) continue;\
+                        if (x<0||x>7||y<0||y>7) continue;\
+                        \
+                        if (window[this.gRef].chessboard[x][y]) {\
+                            if (window[this.gRef].chessboard[x][y].side == this.side) {\
+                                continue;\
+                            } else {\
+                                canAttack = true;\
+                            }\
+                        }\
+                        \
+                        matrix[x][y] = {canAttack: canAttack};\
+                    }\
+                }\
+                \
+                return matrix;\
+            ",
             queen: "",
             bishop: "",
             knight: "",
