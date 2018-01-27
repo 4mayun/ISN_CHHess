@@ -14,9 +14,8 @@ class Player {
     }
 
     init() { // Sera utilisé avec p5
-        // Set les curseurs
-        if (this.side=='white') this.cursor = window[this.gRef].config.ressource.cursor.dark;
-        if (this.side=='black') this.cursor = window[this.gRef].config.ressource.cursor.hot;
+        // Set le curseur
+        this.cursor = window[this.gRef].config.ressource.cursor[this.side];
 
         // Place les pieces du joueur dans l'echiquier
         for (let piece in window[this.gRef].config.initialPos[this.side]) {
@@ -51,12 +50,12 @@ class Player {
                 return;
         }
 
-        // window[this.gRef].playing = newPlayer;
-
         if (window[this.gRef].interacts[dx][dy].canAttack) {
-            window[this.gRef].players[window[this.gRef].playing].theDeadOnes.push(window[this.gRef].chessboard[dx][dy]);
-            
+            window[this.gRef].players[window[this.gRef].playing].kills.push(window[this.gRef].chessboard[dx][dy]);
+
         }
+
+        // window[this.gRef].playing = newPlayer;
 
         window[this.gRef].chessboard[dx][dy] = window[this.gRef].chessboard[sx][sy];
         window[this.gRef].chessboard[sx][sy] = null;

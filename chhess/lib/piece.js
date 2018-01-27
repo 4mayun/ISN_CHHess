@@ -10,37 +10,26 @@ class Piece {
 
     init() {
         this.sprite = loadImage( // Charge l'image correspondant a la piece et sa couleur
-            window[this.gRef].config.ressource.piece[this.type][this.side], // Recupere le chemin vers l'image
+            window[this.gRef].config.ressource.piece[this.side][this.type], // Recupere le chemin vers l'image
             function() {/* Empty function xd */},
             function() {console.error("[ERROR]: Failed to load "+this.type+" image.");} // Failure callback
         );
 
-        if (this.type == 'king') {
-            this.interact = new Function('mx', 'my', window[this.gRef].config.behavior.king);
-            /* this.interact = function(mx, my) {
-                let matrix = generateMatrix(8);
+        if (this.type == 'king')
+            this.interact = new Function('mx', 'my', window[this.gRef].config.behavior[this.type].function);
 
-                for (let  ri=-1; ri<2; ri++) {
-                    for (let rj=-1; rj<2; rj++) {
-                        let x = mx+ri, y = my+rj, canAttack = false;
+        if (this.type == 'pawn' && this.side == 'white') {
+            this.interact = function(mx, my) {
+                let matrix = generateMatrix(window[this.gRef].config.nbC);
 
-                        if (ri==0 && rj==0) continue;
-                        if (x<0||x>7||y<0||y>7) continue;
+                if (window[this.gRef].chessboard[mx][my+(-1)])
 
-                        if (window[this.gRef].chessboard[x][y]) {
-                            if (window[this.gRef].chessboard[x][y].side == this.side) {
-                                continue;
-                            } else {
-                                canAttack = true;
-                            }
-                        }
+                if (my == window[this.gRef].config.behavior.pawn.lineDb[this.side]) {
 
-                        matrix[x][y] = {canAttack: canAttack};
-                    }
                 }
 
                 return matrix;
-            } */
+            }
         }
     }
 

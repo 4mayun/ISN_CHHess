@@ -1,52 +1,65 @@
 class Config {
     constructor() {
         this.square = {color1: 255, color2: 64, size: 80, cornerRadius: 5};
-        this.num = 8;        // l'échiquier est de 8 par 8 cases
+        this.nbC = 8;        // l'échiquier est de 8 par 8 cases
         this.margin = 6;         // Marge entre les blocs en pixels
         this.backgroundColor = 144; //La couleur du fond est un gris chelou
 
-        this.sizeW = this.num*this.square.size+this.margin*(this.num-1);
-        this.sizeH = this.num*this.square.size+this.margin*(this.num-1);
+        this.sizeW = this.nbC*this.square.size+this.margin*(this.nbC-1);
+        this.sizeH = this.nbC*this.square.size+this.margin*(this.nbC-1);
 
         this.maxFrameRate = 60;
 
-        this.behavior = {
-            king: "\
-                let matrix = generateMatrix(8);\
-                \
-                for (let  ri=-1; ri<2; ri++) {\
-                    for (let rj=-1; rj<2; rj++) {\
-                        let x = mx+ri, y = my+rj, canAttack = false;\
-                        \
-                        if (ri==0 && rj==0) continue;\
-                        if (x<0||x>7||y<0||y>7) continue;\
-                        \
-                        if (window[this.gRef].chessboard[x][y]) {\
-                            if (window[this.gRef].chessboard[x][y].side == this.side) {\
-                                continue;\
-                            } else {\
-                                canAttack = true;\
+        this.behavior = { // Chaque piece doit sa fonction. Parametres: mx et my, qui correspondent a la case ou se situe la piece
+            king: {
+                function: "\
+                    let matrix = generateMatrix(window[this.gRef].config.nbC);\
+                    for (let  ri=-1; ri<2; ri++) {\
+                        for (let rj=-1; rj<2; rj++) {\
+                            let canAttack = false;\
+                            let x = mx+ri, y = my+rj;\
+                            let cMax = window[this.gRef].config.nbC-1;\
+                            if (ri==0 && rj==0) continue;\
+                            if (x<0||x>cMax||y<0||y>cMax) continue;\
+                            if (window[this.gRef].chessboard[x][y]) {\
+                                if (window[this.gRef].chessboard[x][y].side == this.side) {\
+                                    continue;\
+                                } else {\
+                                    canAttack = true;\
+                                }\
                             }\
+                            matrix[x][y] = {canAttack: canAttack};\
                         }\
-                        \
-                        matrix[x][y] = {canAttack: canAttack};\
                     }\
-                }\
-                \
-                return matrix;\
-            ",
-            queen: "",
-            bishop: "",
-            knight: "",
-            rook: "",
-            pawn: ""
+                    return matrix;\
+                    "
+            },
+            queen: {
+                function: ""
+            },
+            bishop: {
+                function: ""
+            },
+            knight: {
+                function: ""
+            },
+            rook: {
+                function: ""
+            },
+            pawn: {
+                lineDb: {
+                    white: 6,
+                    black: 1
+                },
+                function: ""
+            }
         };
 
         this.initialPos = {
             white: {
                 king: [
                     {x: 4, y: 7},
-                    {x: 3, y: 2}
+                    {x: 3, y: 3} // Pour le test
                 ],
                 queen: [
                     {x: 3, y: 7}
@@ -108,34 +121,26 @@ class Config {
 
         this.ressource = { // Chemins vers les fichiers ressources
             cursor: { // Chemin vers les fichiers d'icônes
-                dark: "chhess/ressources/cursor/dark_matter.png",
-                hot: "chhess/ressources/cursor/hot_matter.png"
+                white: "chhess/ressources/cursor/dark_matter.png",
+                black: "chhess/ressources/cursor/hot_matter.png"
             },
 
             piece: { // Chemin vers les fchiers d'images des pieces
-                king: {
-                    white: "chhess/ressources/pieces/roi_blanc.png",
-                    black: "chhess/ressources/pieces/roi_noir.png"
+                white: {
+                    king: "chhess/ressources/pieces/roi_blanc.png",
+                    queen: "chhess/ressources/pieces/reine_blanche.png",
+                    bishop: "chhess/ressources/pieces/fou_blanc.png",
+                    knight: "chhess/ressources/pieces/cheval_blanc.png",
+                    rook: "chhess/ressources/pieces/tour_blanche.png",
+                    pawn: "chhess/ressources/pieces/pion_blanc.png"
                 },
-                queen: {
-                    white: "chhess/ressources/pieces/reine_blanche.png",
-                    black: "chhess/ressources/pieces/reine_noire.png"
-                },
-                bishop: {
-                    white: "chhess/ressources/pieces/fou_blanc.png",
-                    black: "chhess/ressources/pieces/fou_noir.png"
-                },
-                knight: {
-                    white: "chhess/ressources/pieces/cheval_blanc.png",
-                    black: "chhess/ressources/pieces/cheval_noir.png"
-                },
-                rook: {
-                    white: "chhess/ressources/pieces/tour_blanche.png",
-                    black: "chhess/ressources/pieces/tour_noire.png"
-                },
-                pawn: {
-                    white: "chhess/ressources/pieces/pion_blanc.png",
-                    black: "chhess/ressources/pieces/pion_noir.png"
+                black: {
+                    king: "chhess/ressources/pieces/roi_noir.png",
+                    queen: "chhess/ressources/pieces/reine_noire.png",
+                    bishop: "chhess/ressources/pieces/fou_noir.png",
+                    knight: "chhess/ressources/pieces/cheval_noir.png",
+                    rook: "chhess/ressources/pieces/tour_noire.png",
+                    pawn: "chhess/ressources/pieces/pion_noir.png"
                 }
             }
         };

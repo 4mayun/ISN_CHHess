@@ -10,7 +10,7 @@ class Game {
         this.name = name;
 
         this.config = null;
-        this.chessboard = generateMatrix(8, null);
+        this.chessboard = [];
 
         this.playing = 'white';
         this.caseOn = null;
@@ -19,17 +19,11 @@ class Game {
     }
 
 
-    init() { // A utiliser avec p5, dans setup
+    init(windowOffset = 0) { // A utiliser avec p5, dans setup
         { // ----- Verification de l'objet -----
-            let errorLevel = 0;
-            this.superSecretKey = Math.floor(1e8*Math.random());
-
-            if (window[this.name]===undefined) { // L'objet n'est pas bien initialise
-                errorLevel = 1;
-            } else if (window[this.name].superSecretKey!==this.superSecretKey) {
-                errorLevel = 1;
-            }
-
+            let errorLevel = 0; this.superSecretKey = Math.floor(1e8*Math.random());
+            if (window[this.name]===undefined) errorLevel = 1;
+            else if (window[this.name].superSecretKey!==this.superSecretKey) errorLevel = 1;
             if (errorLevel) {
                 console.error(
                     "[ERROR]: GAME CLASS COULD NOT BE INSTANTIATED\n" +
@@ -38,15 +32,13 @@ class Game {
                     "       : (See the beginning of game.js file for more details)"
                 );
                 delete window[this.name];
-            } else {
-                console.info("[GAME]: Game has been correctly instantiated");
-            }
-
+            } else console.info("[GAME]: Game has been correctly instantiated");
             delete this.superSecretKey;
         } // -----* Fin de la vérification de l'objet *-----
 
         // Declaration de tous les attributs
         this.config = new Config();
+        this.chessboard = generateMatrix(this.config.nbC, null);
         this.players = {
             white: new Player(this.name, 'white'),
             black: new Player(this.name, 'black')
@@ -133,8 +125,8 @@ class Game {
     draw() { //Dessin du jeu, a utiliser avec p5, dans le draw
         background(this.config.backgroundColor); // Efface le canevas
 
-        for (let i = 0; i<this.config.num; i++) { // Affiche les cases
-            for (let j = 0; j<this.config.num; j++) {
+        for (let i = 0; i<this.config.nbC; i++) { // Affiche les cases
+            for (let j = 0; j<this.config.nbC; j++) {
                 noStroke();
                 ((i+j)%2) ? fill(this.config.square.color2) : fill(this.config.square.color1);
                 rect( // Dessin des cases
