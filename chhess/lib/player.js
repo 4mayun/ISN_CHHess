@@ -2,7 +2,7 @@ class Player {
     constructor(gameRef, playerSide) {
         this.gRef = gameRef; // Nom de l'objet game principal pour pouvoir acceder a l'objet config sans aucun souci, philosophie, hakuna matata
         this.cursor = undefined; // Sera defini dans init
-        this.theDeadOnes = [];
+        this.kills = [];
 
         // Verifie que le player side est bon et le définit
         if (playerSide==='white' || playerSide==='black') {
@@ -26,6 +26,12 @@ class Player {
     }
 
     move(sx, sy, dx, dy) {
+        let cMax = window[this.gRef].config.nbC-1;
+        if (dx<0 || dx>cMax || dy<0 || dy>cMax) {
+            console.log("Piece move error: ("+dx+";"+dy+") is outside the chessboard. Can't move piece on.");
+            return;
+        }
+
         if (!window[this.gRef].chessboard[sx][sy]) {
             console.log("Piece move error: there is no piece on ("+sx+";"+sy+") case.");
             return;
@@ -55,11 +61,12 @@ class Player {
 
         }
 
-        // window[this.gRef].playing = newPlayer;
+        window[this.gRef].playing = newPlayer;
 
         window[this.gRef].chessboard[dx][dy] = window[this.gRef].chessboard[sx][sy];
         window[this.gRef].chessboard[sx][sy] = null;
 
+        cursor(window[this.gRef].players[window[this.gRef].playing].cursor);
         window[this.gRef].caseSelect = null;
         window[this.gRef].interacts  = null;
     }

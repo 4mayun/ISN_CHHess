@@ -15,21 +15,8 @@ class Piece {
             function() {console.error("[ERROR]: Failed to load "+this.type+" image.");} // Failure callback
         );
 
-        if (this.type == 'king')
+        if (this.type == 'king' || this.type == 'pawn') { // En developpement
             this.interact = new Function('mx', 'my', window[this.gRef].config.behavior[this.type].function);
-
-        if (this.type == 'pawn' && this.side == 'white') {
-            this.interact = function(mx, my) {
-                let matrix = generateMatrix(window[this.gRef].config.nbC);
-
-                if (window[this.gRef].chessboard[mx][my+(-1)])
-
-                if (my == window[this.gRef].config.behavior.pawn.lineDb[this.side]) {
-
-                }
-
-                return matrix;
-            }
         }
     }
 

@@ -19,5 +19,5 @@ function mousePressed() {
 }
 
 function windowResized() {
-    resizeCanvas(windowWidth-windowOffset, windowHeight-windowOffset);
+    resizeCanvas(windowWidth-WINDW_OFF, windowHeight-WINDW_OFF);
 }
