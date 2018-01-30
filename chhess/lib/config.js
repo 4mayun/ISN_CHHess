@@ -10,84 +10,6 @@ class Config {
 
         this.maxFrameRate = 60;
 
-        this.behavior = { // Chaque piece doit sa fonction. Parametres: mx et my, qui correspondent a la case ou se situe la piece
-            king: {
-                function: "\
-                    let cMax = window[this.gRef].config.nbC-1;\
-                    let matrix = generateMatrix(cMax);\
-                    for (let  ri=-1; ri<2; ri++) {\
-                        for (let rj=-1; rj<2; rj++) {\
-                            let canAttack = false;\
-                            let x = mx+ri, y = my+rj;\
-                            if (ri==0 && rj==0) continue;\
-                            if (x<0 || x>cMax || y<0 || y>cMax) continue;\
-                            if (window[this.gRef].chessboard[x][y]) {\
-                                if (window[this.gRef].chessboard[x][y].side == this.side) {\
-                                    continue;\
-                                } else {\
-                                    canAttack = true;\
-                                }\
-                            }\
-                            matrix[x][y] = {canAttack: canAttack};\
-                        }\
-                    }\
-                    return matrix;\
-                    "
-            },
-            queen: {
-                function: ""
-            },
-            bishop: {
-                function: ""
-            },
-            knight: {
-                function: ""
-            },
-            rook: {
-                function: ""
-            },
-            pawn: {
-                lineDb: {
-                    white: 6,
-                    black: 1
-                },
-                yDir: {
-                    white: -1,
-                    black: 1
-                },
-                function: "\
-                    let cMax = window[this.gRef].config.nbC-1;\
-                    let matrix = generateMatrix(cMax+1);\
-                    let forward = window[this.gRef].config.behavior.pawn.yDir[this.side];\
-                    let events = {\
-                        diag1: {x: mx-1, y: my+forward, onlyAtt: true},\
-                        diag2: {x: mx+1, y: my+forward, onlyAtt: true},\
-                        forward: {x: mx, y: my+forward}\
-                    };\
-                    if (my == window[this.gRef].config.behavior.pawn.lineDb[this.side]) {\
-                        events.fwPlus = {x: mx, y: my+2*forward, requireFw: true};\
-                    }\
-                    for (let caze in events) {\
-                        let x = events[caze].x, y = events[caze].y;\
-                        if (x<0 || x>cMax || y<0 || y>cMax) continue;\
-                        let piece = window[this.gRef].chessboard[x][y];\
-                        if (events[caze].requireFw == undefined) {\
-                            if (piece) {\
-                                if (piece.side != this.side && events[caze].onlyAtt) {\
-                                matrix[x][y] = {canAttack: true};\
-                            }\
-                        } else {\
-                                if (!events[caze].onlyAtt) matrix[x][y] = {canAttack: false};\
-                            }\
-                        } else if (matrix[x][y-forward]  && !matrix[x][y-forward].canAttack) {\
-                            if (!piece) matrix[x][y] = {canAttack: false};\
-                        }\
-                    }\
-                    return matrix;\
-                    "
-            }
-        };
-
         this.initialPos = {
             white: {
                 king: [
@@ -174,6 +96,159 @@ class Config {
                     rook: "chhess/ressources/pieces/tour_noire.png",
                     pawn: "chhess/ressources/pieces/pion_noir.png"
                 }
+            }
+        };
+
+        this.behavior = { // Chaque piece doit sa fonction. Parametres: mx et my, qui correspondent a la case ou se situe la piece
+            king: {
+                function: "\
+                    let cMax = window[this.gRef].config.nbC-1;\
+                    let matrix = generateMatrix(cMax+1);\
+                    for (let  ri=-1; ri<2; ri++) {\
+                        for (let rj=-1; rj<2; rj++) {\
+                            let canAttack = false;\
+                            let x = mx+ri, y = my+rj;\
+                            if (ri==0 && rj==0) continue;\
+                            if (x<0 || x>cMax || y<0 || y>cMax) continue;\
+                            if (window[this.gRef].chessboard[x][y]) {\
+                                if (window[this.gRef].chessboard[x][y].side == this.side) {\
+                                    continue;\
+                                } else {\
+                                    canAttack = true;\
+                                }\
+                            }\
+                            matrix[x][y] = {canAttack: canAttack};\
+                        }\
+                    }\
+                    return matrix;\
+                    "
+            },
+            queen: {
+                function: "\
+                let cMax = window[this.gRef].config.nbC-1;\
+                let matrix = generateMatrix(window[this.gRef].config.nbC);\
+                let dir = {};\
+                for (dir.x = -1; dir.x<2; dir.x++) {\
+                    for (dir.y = -1; dir.y<2; dir.y++) {\
+                        let x = mx, y = my;\
+                        let avancer = true;\
+                        do {\
+                            x += dir.x; y += dir.y;\
+                            if (x<0 || x>cMax || y<0 || y>cMax) break;\
+                            if (window[this.gRef].chessboard[x][y]) {\
+                                avancer  = false;\
+                                if (window[this.gRef].chessboard[x][y].side != this.side) {\
+                                    matrix[x][y] = {canAttack: true};\
+                                }\
+                            } else {\
+                                matrix[x][y] = {canAttack: false};\
+                            }\
+                        } while (avancer);\
+                    }\
+                }\
+                return matrix;\
+                "
+            },
+            bishop: {
+                function: "\
+                let cMax = window[this.gRef].config.nbC-1;\
+                let matrix = generateMatrix(window[this.gRef].config.nbC);\
+                let events = [\
+                    {x: -1, y: -1},\
+                    {x: +1, y: -1},\
+                    {x: -1, y: +1},\
+                    {x: +1, y: +1}\
+                ];\
+                for (let dir of events) {\
+                    let x = mx, y = my;\
+                    let avancer = true;\
+                    do {\
+                        x += dir.x; y += dir.y;\
+                        if (x<0 || x>cMax || y<0 || y>cMax) break;\
+                        if (window[this.gRef].chessboard[x][y]) {\
+                            avancer  = false;\
+                            if (window[this.gRef].chessboard[x][y].side != this.side) {\
+                                matrix[x][y] = {canAttack: true};\
+                            }\
+                        } else {\
+                            matrix[x][y] = {canAttack: false};\
+                        }\
+                    } while (avancer);\
+                }\
+                return matrix;\
+                "
+            },
+            knight: {
+                function: ""
+            },
+            rook: {
+                function: "\
+                let cMax = window[this.gRef].config.nbC-1;\
+                let matrix = generateMatrix(window[this.gRef].config.nbC);\
+                let events = [\
+                    {x:  0, y: -1},\
+                    {x:  0, y: +1},\
+                    {x: -1, y:  0},\
+                    {x: +1, y:  0}\
+                ];\
+                for (let dir of events) {\
+                    let x = mx, y = my;\
+                    let avancer = true;\
+                    do {\
+                        x += dir.x; y += dir.y;\
+                        if (x<0 || x>cMax || y<0 || y>cMax) break;\
+                        if (window[this.gRef].chessboard[x][y]) {\
+                            avancer  = false;\
+                            if (window[this.gRef].chessboard[x][y].side != this.side) {\
+                                matrix[x][y] = {canAttack: true};\
+                            }\
+                        } else {\
+                            matrix[x][y] = {canAttack: false};\
+                        }\
+                    } while (avancer);\
+                }\
+                return matrix;\
+                "
+            },
+            pawn: {
+                lineDb: {
+                    white: 6,
+                    black: 1
+                },
+                yDir: {
+                    white: -1,
+                    black: 1
+                },
+                function: "\
+                    let cMax = window[this.gRef].config.nbC-1;\
+                    let matrix = generateMatrix(cMax+1);\
+                    let forward = window[this.gRef].config.behavior.pawn.yDir[this.side];\
+                    let events = {\
+                        diag1: {x: mx-1, y: my+forward, onlyAtt: true},\
+                        diag2: {x: mx+1, y: my+forward, onlyAtt: true},\
+                        forward: {x: mx, y: my+forward}\
+                    };\
+                    if (my == window[this.gRef].config.behavior.pawn.lineDb[this.side]) {\
+                        events.fwPlus = {x: mx, y: my+2*forward, requireFw: true};\
+                    }\
+                    for (let caze in events) {\
+                        let x = events[caze].x, y = events[caze].y;\
+                        if (x<0 || x>cMax || y<0 || y>cMax) continue;\
+                        let piece = window[this.gRef].chessboard[x][y];\
+                        if (events[caze].requireFw == undefined) {\
+                            if (piece) {\
+                                if (piece.side != this.side && events[caze].onlyAtt) {\
+                                matrix[x][y] = {canAttack: true};\
+                            }\
+                        } else {\
+                                if (!events[caze].onlyAtt) matrix[x][y] = {canAttack: false};\
+                            }\
+                        } else if (matrix[x][y-forward]  && !matrix[x][y-forward].canAttack) {\
+                            if (!piece) matrix[x][y] = {canAttack: false};\
+                        }\
+                    }\
+                    return matrix;\
+                    "
             }
         };
     }
