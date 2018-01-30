@@ -61,13 +61,15 @@ class Player {
 
         }
 
-        window[this.gRef].playing = newPlayer;
+        window[this.gRef].playing = newPlayer; // Change de joueur
 
-        window[this.gRef].chessboard[dx][dy] = window[this.gRef].chessboard[sx][sy];
-        window[this.gRef].chessboard[sx][sy] = null;
+        window[this.gRef].chessboard[dx][dy] = window[this.gRef].chessboard[sx][sy]; // Place la piece à sa nouvelle position (cree une "copie")
+        window[this.gRef].chessboard[sx][sy] = null; // Vide la case ou etait la piece avant (supprimer l'"ancienne copie")
 
-        cursor(window[this.gRef].players[window[this.gRef].playing].cursor);
+        window[this.gRef].caseOn = null;
         window[this.gRef].caseSelect = null;
         window[this.gRef].interacts  = null;
+
+        cursor(window[this.gRef].players[window[this.gRef].playing].cursor); // Definit le nouveau curseur a l'effigie du joueur en train de jouer
     }
 }

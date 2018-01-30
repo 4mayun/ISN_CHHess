@@ -15,9 +15,7 @@ class Piece {
             function() {console.error("[ERROR]: Failed to load "+this.type+" image.");} // Failure callback
         );
 
-        if (this.type == 'king' || this.type == 'pawn') { // En developpement
-            this.interact = new Function('mx', 'my', window[this.gRef].config.behavior[this.type].function);
-        }
+        this.interact = new Function('mx', 'my', window[this.gRef].config.behavior[this.type].function);
     }
 
     draw(x, y) {
