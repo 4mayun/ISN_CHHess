@@ -16,6 +16,8 @@ class Game {
         this.caseOn = null;
         this.caseSelect = null;
         this.interacts = null;
+
+        this.state = null;
     }
 
 
@@ -54,6 +56,19 @@ class Game {
             }
         }
 
+        // Initialise le fond
+        switch (this.config.background.type) {
+            case 'image':
+                this.background = loadImage(this.config.ressource.background[this.config.background.value]);
+                break;
+            case 'color':
+                this.background = this.config.background.value;
+                break;
+            default: console.error("[ERROR]: Regle tes settings de background stp");
+        }
+
+        this.state = PLAY;
+
         cursor(this.players[this.playing].cursor);
         createCanvas(windowWidth-windowOffset, windowHeight-windowOffset);
         frameRate(this.config.maxFrameRate);
@@ -79,8 +94,10 @@ class Game {
 
             // Si la souris ne se situe pas entre deux cases
             if (column!==-1 && line!==-1) {
-                if (this.chessboard[column][line] && this.chessboard[column][line].side===this.playing ||
-                    this.interacts && this.interacts[column][line])
+                if (this.chessboard[column][line]
+                    && this.chessboard[column][line].side===this.playing
+                    || this.interacts && this.interacts[column][line]
+                    || this.state == END)
                 { // Si la case survolee contient une piece et si elle appartient au joueur
                     this.caseOn = {x: column, y: line};
                 }
@@ -90,7 +107,7 @@ class Game {
 
 
     onClick() { // A utiliser avec p5, dans mousePressed
-        if (this.caseOn) { // Si une case est survolee
+        if (this.caseOn && this.state == PLAY) { // Si une case est survolee
             let selectCase = false;
 
             if (this.caseSelect) { // Si une case est selectionnee
@@ -121,9 +138,15 @@ class Game {
         }
     }
 
+    keyPress() {
+        if (this.state == END && keyCode == 32) {
+            window.location.reload();
+        }
+    }
+
 
     draw() { //Dessin du jeu, a utiliser avec p5, dans le draw
-        background(this.config.backgroundColor); // Efface le canevas
+        background(this.background);
 
         for (let i = 0; i<this.config.nbC; i++) { // Affiche les cases
             for (let j = 0; j<this.config.nbC; j++) {
@@ -190,20 +213,33 @@ class Game {
             );
         }
 
-        fill(255); noStroke();
+        if (this.state == END) {
+            fill(255); textAlign(CENTER, TOP); textSize(48); stroke(0); strokeWeight(4);
+            text(
+                "LA PARTIE EST TERMINEE\nLe joueur "+((this.playing=='white') ? 'noir' : 'blanc')+" a gagné !\nAppuyez sur [F5] ou sur la barre espace",
+                width-this.config.sizeW,
+                height-this.config.sizeH
+            );
+        }
+
+        fill(255); noStroke(); textAlign(LEFT, BOTTOM);
         textSize(12); text(width+"x"+height+":  "+int(frameRate())+" fps", 1, height-2);
 
-        for (let player in this.players) {
-            for (let i=0; i<this.players[player].kills.length; i++) {
-                //
-                // image(
-                //     this.players[player].kills[i].sprite,
-                //     /* coordonnée sur x en pixels */,
-                //     /* coordonnée sur y en pixels */,
-                //     window[this.gRef].config.square.size,
-                //     window[this.gRef].config.square.size
-                // );
-            }
-        }
+        // for (let player in this.players) {
+        //     for (let i=0; i<this.players[player].kills.length; i++) {
+        //
+        //         image(
+        //             this.players[player].kills[i].sprite,
+        //             /* coordonnée sur x en pixels */,
+        //             /* coordonnée sur y en pixels */,
+        //             window[this.gRef].config.square.size,
+        //             window[this.gRef].config.square.size
+        //         );
+        //     }
+        // }
     }
 }
+
+// const MENU = 1;
+const PLAY = 2;
+const END  = 3;

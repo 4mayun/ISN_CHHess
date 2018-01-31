@@ -67,7 +67,8 @@ class Player {
 
         if (window[this.gRef].chessboard[dx][dy]) {
             if (window[this.gRef].chessboard[dx][dy].type == window[this.gRef].config.killThisPieceToWin) {
-                window[this.gRef].config.backgroundColor = loadImage("jeux de pieces/saucissexd.png");
+                console.info("[GAME]: Game is finished ! The "+this.side+" player win !");
+                window[this.gRef].state = END;
             }
         }
 

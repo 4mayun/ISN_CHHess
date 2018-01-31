@@ -3,7 +3,7 @@ class Config {
         this.square = {color1: 255, color2: 64, size: 80, cornerRadius: 5};
         this.nbC = 8;        // l'échiquier est de 8 par 8 cases
         this.margin = 6;         // Marge entre les blocs en pixels
-        this.backgroundColor = 144; //La couleur du fond est un gris chelou
+        this.background = {type: 'image', value: 0};
 
         this.sizeW = this.nbC*this.square.size+this.margin*(this.nbC-1);
         this.sizeH = this.nbC*this.square.size+this.margin*(this.nbC-1);
@@ -80,6 +80,11 @@ class Config {
                 white: "chhess/ressources/cursor/dark_matter.png",
                 black: "chhess/ressources/cursor/hot_matter.png"
             },
+
+            background: [
+                "chhess/ressources/background/gris.jpg",
+                "chhess/ressources/background/blue_wave_abstract.jpg"
+            ],
 
             piece: { // Chemin vers les fchiers d'images des pieces
                 white: {

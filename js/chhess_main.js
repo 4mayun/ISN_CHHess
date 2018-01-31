@@ -18,6 +18,10 @@ function mousePressed() {
     chess.onClick();
 }
 
+function keyPressed() {
+    chess.keyPress();
+}
+
 function windowResized() {
     resizeCanvas(windowWidth-WINDW_OFF, windowHeight-WINDW_OFF);
 }
