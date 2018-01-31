@@ -101,7 +101,7 @@ class Config {
             }
         };
 
-        this.behavior = { // Chaque piece doit sa fonction. Parametres: mx et my, qui correspondent a la case ou se situe la piece
+        this.behavior = { // Chaque piece a sa fonction. Parametres: mx et my, qui correspondent a la case ou se situe la piece
             king: {
                 function: "\
                     let cMax = window[this.gRef].config.nbC-1;\
@@ -181,7 +181,29 @@ class Config {
                 "
             },
             knight: {
-                function: ""
+                function: "\
+                let cMax = window[this.gRef].config.nbC-1;\
+                let matrix = generateMatrix(window[this.gRef].config.nbC);\
+                let dirX = [1,2,2,1];\
+                for (let dx=-1; dx<2; dx+=2) {\
+                    for (let i=0, ay=dx*2; i<dirX.length; i++, ay-=dx) {\
+                        if (!ay) ay-=dx;\
+                        let x = mx + dx*dirX[i];\
+                        let y = my + ay;\
+                        if (x<0 || x>cMax || y<0 || y>cMax) continue;\
+                        if (window[this.gRef].chessboard[x][y]) {\
+                            if (window[this.gRef].chessboard[x][y].side == this.side) {\
+                                continue;\
+                            } else {\
+                                matrix[x][y] = {canAttack: true};\
+                            }\
+                        } else {\
+                            matrix[x][y] = {canAttack: false};\
+                        }\
+                    }\
+                }\
+                return matrix;\
+                "
             },
             rook: {
                 function: "\

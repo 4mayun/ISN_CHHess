@@ -4,8 +4,9 @@ class Piece {
 
         this.type = pieceType;
         this.side = pieceSide;
-        this.sprite = undefined; // Sera chargé dans init
         this.alive = true;
+        this.sprite = undefined; // Sera chargé dans init
+        this.interact = undefined; // Sera defini dans init
     }
 
     init() {
@@ -16,16 +17,6 @@ class Piece {
         );
 
         this.interact = new Function('mx', 'my', window[this.gRef].config.behavior[this.type].function);
-
-        if (this.type == 'knight') {
-            this.interact = function(mx, my) {
-                let cMax = window[this.gRef].config.nbC-1;
-                let matrix = generateMatrix(window[this.gRef].config.nbC);
-
-                return matrix;
-            }
-        }
-
     }
 
     draw(x, y) {

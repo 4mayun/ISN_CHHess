@@ -48,7 +48,7 @@ class Player {
         }
 
         if (window[this.gRef].chessboard[dx][dy] && window[this.gRef].chessboard[dx][dy].type == 'king') {
-            
+
         }
 
         let newPlayer;
@@ -63,6 +63,12 @@ class Player {
         if (window[this.gRef].interacts[dx][dy].canAttack) {
             window[this.gRef].players[window[this.gRef].playing].kills.push(window[this.gRef].chessboard[dx][dy]);
 
+        }
+
+        if (window[this.gRef].chessboard[dx][dy]) {
+            if (window[this.gRef].chessboard[dx][dy].type == window[this.gRef].config.killThisPieceToWin) {
+                window[this.gRef].config.backgroundColor = loadImage("jeux de pieces/saucissexd.png");
+            }
         }
 
         window[this.gRef].playing = newPlayer; // Change de joueur

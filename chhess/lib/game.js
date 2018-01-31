@@ -90,7 +90,7 @@ class Game {
 
 
     onClick() { // A utiliser avec p5, dans mousePressed
-        if (this.caseOn) { // Si un case est survolee
+        if (this.caseOn) { // Si une case est survolee
             let selectCase = false;
 
             if (this.caseSelect) { // Si une case est selectionnee
