@@ -192,5 +192,18 @@ class Game {
 
         fill(255); noStroke();
         textSize(12); text(width+"x"+height+":  "+int(frameRate())+" fps", 1, height-2);
+
+        for (let player in this.players) {
+            for (let i=0; i<this.players[player].kills.length; i++) {
+                //
+                // image(
+                //     this.players[player].kills[i].sprite,
+                //     /* coordonnée sur x en pixels */,
+                //     /* coordonnée sur y en pixels */,
+                //     window[this.gRef].config.square.size,
+                //     window[this.gRef].config.square.size
+                // );
+            }
+        }
     }
 }

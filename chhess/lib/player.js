@@ -47,6 +47,10 @@ class Player {
             return;
         }
 
+        if (window[this.gRef].chessboard[dx][dy] && window[this.gRef].chessboard[dx][dy].type == 'king') {
+            
+        }
+
         let newPlayer;
         switch (window[this.gRef].playing) {
             case 'white': newPlayer = 'black'; break;

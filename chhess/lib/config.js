@@ -10,6 +10,8 @@ class Config {
 
         this.maxFrameRate = 60;
 
+        this.killThisPieceToWin = 'king';
+
         this.initialPos = {
             white: {
                 king: [
