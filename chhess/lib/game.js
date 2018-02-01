@@ -218,7 +218,7 @@ class Game {
             text(
                 "LA PARTIE EST TERMINEE\nLe joueur "+((this.playing=='white') ? 'noir' : 'blanc')+" a gagné !\nAppuyez sur [F5] ou sur la barre espace",
                 width-this.config.sizeW,
-                height-this.config.sizeH
+                height-this.config.sizeH/1.5
             );
         }
 
